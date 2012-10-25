@@ -1,9 +1,9 @@
 enyo.kind({
 	name: "Recipe",
-	kind: enyo.FittableRows,
+	kind: enyo.FittableColumns,
 	classes: "onyx enyo-fit",
 	components: [
-		{kind: "Panels", fit: true, classes: "panels-sample-sliding-panels", arrangerKind: "CardArranger", wrap: false, components: [
+		{kind: "Panels", fit: true, classes: "sliding-panels", arrangerKind: "enyo.LeftRightArranger", margin: 0, wrap: false, components: [
 			{name: "recipeList", components: [ 
 				{kind: "List", classes: "enyo-fit", multiSelect: false, touch: true, count: 50, onSetupItem: "setupItem", item: "item1", components: [
 						{name: "item1", classes: "panels-sample-sliding-item"}
@@ -11,9 +11,8 @@ enyo.kind({
 			]},
 
 			{name: "environment", components: [
-				{kind: "List", classes: "enyo-fit", count: 100, touch: true, onSetupItem: "setupItem", item: "item2", components: [
-					{name: "item2", classes: "panels-sample-sliding-item"}
-					]}
+				{kind: "enyo.Control", classes: "enyo-fit", tag: 'p', content: "Environmental Variables Here"} 
+				
 			]}
 		]},
 	],

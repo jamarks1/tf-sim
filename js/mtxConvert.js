@@ -42,20 +42,15 @@ $(document).ready(function(){
 			// lastly, "Notes" section
 			$('table#materialTable').append('<tr><td colspan="3">' + notes.text() + '</td></tr>');
 			// Now to get this into JSON format ------------------------------------------
-			//Make a new material from material class, make array length equal to data points
-			materialData.newMaterial = new material(materialName);
-			materialData.newMaterial.Indices.length = nkpoints.length;
-			
-			
-			// iterate through xml. Yes I know. Not DRY :P Need to keep this seperate in my head for now.
-			for (i=0; i<nkpoints.length; i++) {
-					materialData.newMaterial.Indices[i] = {"lambda": parseInt($(nkpoints[i]).attr('W')), "n": parseFloat($(nkpoints[i]).attr('n')).toFixed(3), "k": parseFloat($(nkpoints[i]).attr('k')).toFixed(6)};	
-			}
+			mtxToJSON(materialName,nkpoints,notes);
 
-			// We should get and fill in the Notes data as well.
-			materialData.newMaterial.Notes = notes.text();
-			// Display resulting JSON
-			$('textarea#output').val(JSON.stringify(materialData.newMaterial));
+			// Display resulting JSON to output		
+			$('textarea#output').val(JSON.stringify(newMaterial));
+			// broaden scope of this material by attaching to materialData object
+			materialData.newMaterialName = materialName;
+			console.log(materialData);
+			materialData[materialName] = newMaterial;
+			console.log(materialData);
 		};
 	});
 //--------------------------------------------------------------------------End Essential Macleod Import
@@ -63,9 +58,10 @@ $(document).ready(function(){
 	// Save button
 	$('a#saveButton').click(function(){
 		event.preventDefault();
-		saveMaterial = JSON.stringify(materialData.newMaterial);
-		localStorage.setItem(materialData.newMaterial.materialName, saveMaterial);
-		console.log("Saved new material file: " + materialData.newMaterial.materialName);
+		var newMaterialName = materialData.newMaterialName;
+		saveMaterial = JSON.stringify(materialData[newMaterialName]);
+		localStorage.setItem(newMaterialName, saveMaterial);
+		console.log("Saved new material file: " + newMaterialName);
 		
 	});	
 });

@@ -9,17 +9,18 @@ material = function(materialName){
 	
   };
 
-function mtxToJSON (materialName){
-	materialData.newMaterial = new material(materialName);
-	materialData.newMaterial.Indices.length = nkpoints.length;
-
+// Take parsed mtx xml data and turn it into json
+function mtxToJSON (materialName,nkpoints,notes){
+	//Make a new material from material class, make array length equal to data points
+	newMaterial = new material(materialName);
+	newMaterial.Indices.length = nkpoints.length;
+	// iterate through xml.
 	for (i=0; i<nkpoints.length; i++) {
-					materialData.newMaterial.Indices[i] = {"lambda": parseInt($(nkpoints[i]).attr('W')), "n": parseFloat($(nkpoints[i]).attr('n')).toFixed(3), "k": parseFloat($(nkpoints[i]).attr('k')).toFixed(6)};	
+					newMaterial.Indices[i] = {"lambda": parseInt($(nkpoints[i]).attr('W')), "n": parseFloat($(nkpoints[i]).attr('n')).toFixed(3), "k": parseFloat($(nkpoints[i]).attr('k')).toFixed(6)};	
 			};
-
-	materialData.newMaterial.Notes = notes.text();
-	// Display resulting JSON
-	$('textarea#output').val(JSON.stringify(materialData.newMaterial));
+	// We should fill in the Notes data as well.
+	newMaterial.Notes = notes.text();
+	return newMaterial;
 };
 
 

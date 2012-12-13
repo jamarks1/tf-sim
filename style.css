@@ -23,7 +23,7 @@ table,td {
 	background: #FFFFFF;
 }
 
-#materialJSON {
+#output {
         position: relative;
         float:right;
 	width: 400px;

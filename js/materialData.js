@@ -9,15 +9,17 @@ material = function(materialName){
 	
   };
 
-// Buttons to control ability to Load and save data.
-$(document).ready(function(){
-	$('a#saveButton').click(function(){
-		event.preventDefault();
-		saveMaterial = JSON.stringify(materialData.newMaterial);
-		localStorage.setItem(materialData.newMaterial.materialName, saveMaterial);
-		console.log("Saved new material file: " + materialData.newMaterial.materialName);
-		
-	});			
-});
+function mtxToJSON (materialName){
+	materialData.newMaterial = new material(materialName);
+	materialData.newMaterial.Indices.length = nkpoints.length;
+
+	for (i=0; i<nkpoints.length; i++) {
+					materialData.newMaterial.Indices[i] = {"lambda": parseInt($(nkpoints[i]).attr('W')), "n": parseFloat($(nkpoints[i]).attr('n')).toFixed(3), "k": parseFloat($(nkpoints[i]).attr('k')).toFixed(6)};	
+			};
+
+	materialData.newMaterial.Notes = notes.text();
+	// Display resulting JSON
+	$('textarea#output').val(JSON.stringify(materialData.newMaterial));
+};
 
 

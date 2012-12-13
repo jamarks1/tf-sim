@@ -1,13 +1,16 @@
 
 $(document).ready(function(){
-	
+
+	// materialData will have other material objects attached to it
+	var materialData = {};
+
+//Importing from Essential Macleod----------------------------------------------------------------------
 	$('#upload').change( function(){
 
 		// remove the previous table
 		$('table#materialTable').empty();
-		$('textarea#materialJSON').val("");
+		$('textarea#output').val("");
 
-//Importing from Essential Macleod----------------------------------------------------------------------
 		// upload file chosen from input, make a Filereader, read file as text
 		var uploadFile = $('#upload').get(0).files[0];
 		var reader = new FileReader();
@@ -27,7 +30,7 @@ $(document).ready(function(){
 			var nkpoints = $xml.find('NKPoint');
 			var notes = $xml.find('Notes');
 
-// Presenting the Data uploaded to the User -------------------------------------------------------
+			// Presenting the Data uploaded to the User -------------------
 			// Fill out head of table
 			$('table#materialTable').append('<tr><td colspan="3">'+ materialName + '</td></tr>');	
 			$('table#materialTable').append('<tr><td>Wavelength</td><td>Refractive Index</td><td>Extinction Coeff</td></tr>');
@@ -38,7 +41,7 @@ $(document).ready(function(){
 			};
 			// lastly, "Notes" section
 			$('table#materialTable').append('<tr><td colspan="3">' + notes.text() + '</td></tr>');
-// Now to get this into JSON format --------------------------------------------------------------
+			// Now to get this into JSON format ------------------------------------------
 			//Make a new material from material class, make array length equal to data points
 			materialData.newMaterial = new material(materialName);
 			materialData.newMaterial.Indices.length = nkpoints.length;
@@ -52,7 +55,17 @@ $(document).ready(function(){
 			// We should get and fill in the Notes data as well.
 			materialData.newMaterial.Notes = notes.text();
 			// Display resulting JSON
-			$('#materialJSON').val(JSON.stringify(materialData.newMaterial));
+			$('textarea#output').val(JSON.stringify(materialData.newMaterial));
 		};
 	});
+//--------------------------------------------------------------------------End Essential Macleod Import
+//buttons-----------------------------------------------------------------------------------------------
+	// Save button
+	$('a#saveButton').click(function(){
+		event.preventDefault();
+		saveMaterial = JSON.stringify(materialData.newMaterial);
+		localStorage.setItem(materialData.newMaterial.materialName, saveMaterial);
+		console.log("Saved new material file: " + materialData.newMaterial.materialName);
+		
+	});	
 });

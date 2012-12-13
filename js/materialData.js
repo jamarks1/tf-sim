@@ -1,6 +1,6 @@
 
 
-// make a new material for importing to JSON format- Used by mtxConvert.js
+// make a new material for importing to JSON format
 material = function(materialName){ 
 
 	this.materialName = materialName;
@@ -9,10 +9,14 @@ material = function(materialName){
 	
   };
 
+// Buttons to control ability to Load and save data.
 $(document).ready(function(){
-	$('#saveButton').click(function(){
-		var filename = 'materials/' + materialData.newMaterial.materialName + '.js';
-		$.post(filename,JSON.stringify(materialData.newMaterial),console.log("success"));
+	$('a#saveButton').click(function(){
+		event.preventDefault();
+		saveMaterial = JSON.stringify(materialData.newMaterial);
+		localStorage.setItem(materialData.newMaterial.materialName, saveMaterial);
+		console.log("Saved new material file: " + materialData.newMaterial.materialName);
+		
 	});			
 });
 

@@ -6,9 +6,10 @@ $(document).ready(function(){
 		// remove the previous table
 		$('table#materialTable').empty();
 		$('textarea#materialJSON').val("");
+
+//Importing from Essential Macleod----------------------------------------------------------------------
 		// upload file chosen from input, make a Filereader, read file as text
 		var uploadFile = $('#upload').get(0).files[0];
-		
 		var reader = new FileReader();
 		reader.onload = function(){console.log("Loading file " + uploadFile.name);};
 		reader.onerror = function(){console.log("Oops! Try again.");};

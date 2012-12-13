@@ -31,7 +31,7 @@ table,td {
         margin: 2px;
 	resize: none;
 }
-#saveButton {
+a.button {
         color: black;
         background: #FFFFFF;
         padding-left: 10px;

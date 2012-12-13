@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/home/jamarks/Documents/Thin film program project/xsl/Essential Macleod material to html.xsl"?>
+<EssentialMacleodMaterial Name="Ta2O5"><NKPoints><NKPoint W=" 250" n=" 2.65000029141083" k=" .40000019967556"/><NKPoint W=" 300" n=" 2.50000008940697" k=" 4.00000051013194E-03"/><NKPoint W=" 350" n=" 2.29999999981374" k=" 0"/><NKPoint W=" 400" n=" 2.19999968633056" k=" 0"/><NKPoint W=" 450" n=" 2.15000103486818" k=" 0"/><NKPoint W=" 1000" n=" 2.09999990463257" k=" 0"/><NKPoint W=" 2000" n=" 2.09999990463257" k=" 0"/></NKPoints><Notes>Tantalum Pentoxide
+
+Ta2O5
+
+Source: unknown.
+</Notes></EssentialMacleodMaterial>

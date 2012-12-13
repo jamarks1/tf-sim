@@ -7,7 +7,7 @@ enyo.kind({
 			{name: "recipeList", components: [ 
 				{kind: "List", classes: "enyo-fit", multiSelect: false, touch: true, count: 50, onSetupItem: "setupItem", item: "item1", components: [
 						{name: "item1", classes: "panels-sample-sliding-item"}
-				]}
+				]},
 			]},
 
 			{name: "environment", components: [

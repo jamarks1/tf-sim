@@ -1,0 +1,65 @@
+body {
+      background: #FFFEEE;
+     }
+     
+#container {
+	width: 850px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+table,td {
+	border: solid 1px black;
+	border-collapse: collapse;
+	padding: 5px;
+	width: 400px;
+	text-align: center;
+}
+
+#materialTable {
+	position: relative;
+	float: left;
+	width: 400px;
+	background: #FFFFFF;
+}
+
+#materialJSON {
+        position: relative;
+        float:right;
+	width: 400px;
+	height: 500px;
+        margin: 2px;
+	resize: none;
+}
+#saveButton {
+        color: black;
+        background: #FFFFFF;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: solid black 1px;
+        border-radius: 5px;
+        text-decoration: none;
+}
+
+#resultArea {
+    width: 400px;
+    float: right;
+}
+
+/* #outer and #materialTable tbody is to make to table scrollable*/
+#outer {
+    position: relative;
+    float: left;
+    height: 500px;
+    width: 400px;
+    border: solid black 1px;
+    background: #FFFFFF;
+}
+
+#materialTable tbody {
+    display:block;
+    overflow:auto;
+    width: 100%;
+    height: 500px;
+}
+

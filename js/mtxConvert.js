@@ -4,11 +4,11 @@ $(document).ready(function(){
 	// materialData will have other material objects attached to it
 	var materialData = {};
 	
+	// Initialize data table
 	$('div#dataTable').handsontable({
 		startRows: 19,
 		startCols: 3,
-		colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]
-			
+		colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]		
 	});
 
 //Importing from Essential Macleod----------------------------------------------------------------------
@@ -37,7 +37,7 @@ $(document).ready(function(){
 			var nkpoints = $xml.find('NKPoint');
 			var notes = $xml.find('Notes');
 
-			// Presenting the Data uploaded to the User -------------------
+			// Presenting the Data uploaded to the user in data table -------------------
 			var data = [];			
 			for (i=0;i<nkpoints.length;i++){
 				data[i] = [parseFloat($(nkpoints[i]).attr('W')).toFixed(1),parseFloat($(nkpoints[i]).attr('n')).toFixed(3), parseFloat($(nkpoints[i]).attr('k')).toFixed(6)]
@@ -45,16 +45,7 @@ $(document).ready(function(){
 			$('div#dataTable').handsontable({ 
 				data: data	
 			});
-			// Fill out head of table
-//			$('table#materialTable').append('<tr><td colspan="3">'+ materialName + '</td></tr>');	
-//			$('table#materialTable').append('<tr><td>Wavelength</td><td>Refractive Index</td><td>Extinction Coeff</td></tr>');
-				
-			// iterate through xml and fill out values for W,n, and k.
-//			for (i=0; i<nkpoints.length; i++) {
-//				$('table#materialTable').append('<tr><td>' + parseInt($(nkpoints[i]).attr('W')) + '</td><td>' + parseFloat($(nkpoints[i]).attr('n')).toFixed(3) + '</td><td>' + parseFloat($(nkpoints[i]).attr('k')).toFixed(6) + '</td></tr>');			
-//			};
-			// lastly, "Notes" section
-//			$('table#materialTable').append('<tr><td colspan="3">' + notes.text() + '</td></tr>');
+
 			// Now to get this into JSON format(see corresponding function)-------------------
 			mtxToJSON(materialName,nkpoints,notes);
 
@@ -65,7 +56,6 @@ $(document).ready(function(){
 			materialData.newMaterialName = materialName;
 			//then save material object
 			materialData[materialName] = newMaterial;
-			
 		};
 	});
 //--------------------------------------------------------------------------End Essential Macleod Import
@@ -96,7 +86,7 @@ $(document).ready(function(){
 					}
 				}
 			}
- 
+
 		} else { console.log("error: No material to save")}
 	});
 	//Load Button	

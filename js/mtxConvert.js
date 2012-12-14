@@ -41,16 +41,17 @@ $(document).ready(function(){
 			};
 			// lastly, "Notes" section
 			$('table#materialTable').append('<tr><td colspan="3">' + notes.text() + '</td></tr>');
-			// Now to get this into JSON format ------------------------------------------
+			// Now to get this into JSON format(see corresponding function)-------------------
 			mtxToJSON(materialName,nkpoints,notes);
 
 			// Display resulting JSON to output		
 			$('textarea#output').val(JSON.stringify(newMaterial));
-			// broaden scope of this material by attaching to materialData object
+			// broaden scope of this material by attaching to materialData object. 
+			// First save material name as string
 			materialData.newMaterialName = materialName;
-			console.log(materialData);
+			//then save material object
 			materialData[materialName] = newMaterial;
-			console.log(materialData);
+			
 		};
 	});
 //--------------------------------------------------------------------------End Essential Macleod Import
@@ -59,9 +60,32 @@ $(document).ready(function(){
 	$('a#saveButton').click(function(){
 		event.preventDefault();
 		var newMaterialName = materialData.newMaterialName;
-		saveMaterial = JSON.stringify(materialData[newMaterialName]);
-		localStorage.setItem(newMaterialName, saveMaterial);
-		console.log("Saved new material file: " + newMaterialName);
-		
-	});	
+		//If there is a file to save. Else,"hey no file."
+		if (newMaterialName != undefined) {
+			// And if we aren't overwriting a previous key
+			if (localStorage.getItem(newMaterialName) == null){
+				saveMaterial = JSON.stringify(materialData[newMaterialName]);
+				localStorage.setItem(newMaterialName, saveMaterial);
+				console.log("Saved new material file: " + newMaterialName);
+			//If there is a difference between files, confirm user wants to overwrite file, else prompt for new name.
+			} else { 
+				var storedMaterial = localStorage.getItem(newMaterialName);
+				saveMaterial = JSON.stringify(materialData[newMaterialName]);
+				if (storedMaterial == saveMaterial) {
+					console.log("Files already saved.");
+				} else {
+					var decision = confirm("This file already exists in the database. Do you want to replace the file with this file?") 
+					if (decision == true){
+								localStorage.setItem(newMaterialName, saveMaterial);} else { 
+						alert("Save file under different file name.");
+						return false;
+					}
+				}
+			}
+ 
+		} else { console.log("error: No material to save")}
+	});
+	//Load Button	
 });
+
+	

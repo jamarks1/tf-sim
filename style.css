@@ -14,13 +14,6 @@ body {
 	background: #FFFFFF;
 } 
 
-/* #materialTable {
-	position: relative;
-	float: left;
-	width: 400px;
-	background: #FFFFFF;
-} */
-
 #output {
         position: relative;
         float:right;
@@ -45,20 +38,19 @@ a.button {
     float: right;
 }
 
-/* #outer and #materialTable tbody is to make to table scrollable*/
+
 #dataTable {
-    position: relative;
-    float: left;
-    height: 500px;
-    width: 400px;
-    overflow-y: scroll;
+	position: relative;
+	margin-top: 0px;    
+	float: left;
+	height: 500px;
+	width: 400px;
+	overflow-y: scroll;
  
 }
 
-/* #materialTable tbody {
-    display:block;
-    overflow:auto;
-    width: 100%;
-    height: 500px;
-} */
-
+input#materialTitle {
+    position:relative;
+    margin: 5px;
+    font-size: 1.5em;
+}

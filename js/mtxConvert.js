@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 	// materialData will have other material objects attached to it
 	var materialData = {};
-	
+	//var data = [];
 	// Initialize data table
 	$('div#dataTable').handsontable({
 		startRows: 19,
@@ -15,7 +15,7 @@ $(document).ready(function(){
 	$('#upload').change( function(){
 
 		// remove the previous table
-		//$('table#materialTable').empty();
+		
 		$('textarea#output').val("");
 
 		// upload file chosen from input, make a Filereader, read file as text
@@ -38,7 +38,8 @@ $(document).ready(function(){
 			var notes = $xml.find('Notes');
 
 			// Presenting the Data uploaded to the user in data table -------------------
-			var data = [];			
+			$('#materialTitle').val(materialName);
+			//var data = [];			
 			for (i=0;i<nkpoints.length;i++){
 				data[i] = [parseFloat($(nkpoints[i]).attr('W')).toFixed(1),parseFloat($(nkpoints[i]).attr('n')).toFixed(3), parseFloat($(nkpoints[i]).attr('k')).toFixed(6)]
 			};
@@ -89,7 +90,24 @@ $(document).ready(function(){
 
 		} else { console.log("error: No material to save")}
 	});
-	//Load Button	
+	//Calculate Button
+	$('#calcButton').click(function(event){
+		event.preventDefault();
+		// Name of file will change according to user input
+		var materialName = $('#materialTitle').val();
+		//call function to calculate
+		dataTableToJSON(materialName,data,"PlaceHolder");
+		
+		$('textarea#output').val(JSON.stringify(newMaterial));
+		// broaden scope of this material by attaching to materialData object. 
+		// First save material name as string
+		materialData.newMaterialName = materialName;
+		//then save material object
+		materialData[materialName] = newMaterial;
+		
+		
+	})
+	 	
 });
 
 	

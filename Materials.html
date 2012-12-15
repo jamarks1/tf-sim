@@ -12,19 +12,22 @@
 	
 	
 	<div id="container">
-	<input type="file" id="upload" name="uploadField"/>
-	<p>Import a Essential Macleod Material file</p>
 		<script>
-		var materialData = {};
 		
+		var data = []
 		</script>
-
+	<div id="dataContainer">
+	<input type="text" id="materialTitle"/>
 	<div id="dataTable"></div>
+	</div>
+	
 
 	<div id="resultArea">
 	<textarea id="output"></textarea>
+	<a href="calcButton" id="calcButton" class="button">Calculate</a>
 	<a href="loadButton" id="loadButton" class="button">Load</a>
 	<a href="saveButton" id="saveButton" class="button">Save</a>
+	<input type="file" id="upload" name="uploadField"/>
 	</div>	
 	
 	</div>

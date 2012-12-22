@@ -1,12 +1,13 @@
 //Material Functions	
 
 // make a new material for importing to JSON format
-material = function (materialName) {
+material = function(materialName){ 
 
 	this.materialName = materialName;
-	this.Indices = [{"lambda": 0, "n": 0 , "k": 0},{"lambda": 0, "n": 0, "k": 0 }];
+	this.Indices = [{"lambda": 0 , "n": 0 ,"k": 0},{"lambda": 0, "n": 0, "k": 0 }];
 	//this.Notes = " "; todo
- };
+	
+  };
 
 // Take parsed mtx xml data and turn it into json
 function mtxToJSON (materialName,nkpoints,notes){

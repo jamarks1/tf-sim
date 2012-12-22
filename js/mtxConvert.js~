@@ -53,7 +53,7 @@ $(document).ready(function(){
 				data: data	
 			});
 
-			// Now to get this into JSON format(see corresponding function)-----------------
+			// Now to get this into JSON format(see corresponding function)-------------------
 			mtxToJSON(materialName,nkpoints,notes);
 
 			// Display resulting JSON to output		
@@ -119,8 +119,8 @@ $(document).ready(function(){
 	//Load Button
 	$('#loadButton').click(function(event){
 		event.preventDefault();
-		data = [];
-		materialName = $('select#savedList option:selected').val();
+		handsontableInit();
+		var materialName = $('select#savedList option:selected').val();
 		$('#materialTitle').val(materialName);
 		var jsonData = $.parseJSON(localStorage.getItem(materialName));
 		console.log("Loading: " + materialName);

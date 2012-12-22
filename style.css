@@ -51,6 +51,10 @@ a.button {
 
 input#materialTitle {
     position:relative;
-    margin: 5px;
+    margin: 0px;
     font-size: 1.5em;
+    width: 400px;
+    text-align: center;
+    border: none;
+    background: #FFFEEE
 }

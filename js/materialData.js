@@ -1,7 +1,7 @@
 //Material Functions	
 
 // make a new material for importing to JSON format
-material = function (materialName) {
+var material = function (materialName) {
 
 	this.materialName = materialName;
 	this.Indices = [{"lambda": 0, "n": 0 , "k": 0},{"lambda": 0, "n": 0, "k": 0 }];
@@ -23,7 +23,7 @@ function mtxToJSON (materialName,nkpoints,notes){
 };
 
 // Take info from dataTable and turn into json
-function dataTableToJSON(materialName,data,notes){
+function dataTableToJSON(materialName,data){
 		//Make a new material from material class, make array length equal to data points
 		newMaterial = new material(materialName);
 		newMaterial.Indices.length = data.length;
@@ -32,7 +32,7 @@ function dataTableToJSON(materialName,data,notes){
 					for (i=0; i<data.length; i++){ newMaterial.Indices[i] = {"lambda": data[i][0], "n": data[i][1], "k": data[i][2]}};
 				};
 		};
-		newMaterial.Notes = notes;
+		//newMaterial.Notes = notes; todo
 		return newMaterial;
 };
 
@@ -45,15 +45,5 @@ function updateSaved() {
 	};
 };
 
-// Display chosen data in data table 
-function JSONToDatatable() {
-	
-}
 
-function handsontableInit() {
-		$('div#dataTable').handsontable({
-			startRows: 19,
-			startCols: 3,
-			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]		
-		});
-	};
+

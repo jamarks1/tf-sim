@@ -1,11 +1,12 @@
 //Material.js
 
-$(document).ready(function(){
+$(document).ready(function () {
 
 	// materialData will have other material objects attached to it
 	var materialData = {};
 	var data = [];
-	
+
+
 	// get the saved local materials
 	updateSaved();
 
@@ -13,11 +14,12 @@ $(document).ready(function(){
 	$('div#dataTable').handsontable({
 			startRows: 19,
 			startCols: 3,
-			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]		
+			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]
+					
 		});
 
 //Importing from Essential Macleod----------------------------------------------------------------------
-	$('#upload').change( function(){
+	$('#upload').change(function () {
 
 		// remove the previous table
 		//var data = [];
@@ -103,7 +105,6 @@ $(document).ready(function(){
 		event.preventDefault();
 		// Name of file will change according to user input
 		var materialName = $('#materialTitle').val();
-
 		//turn data table to json.
 		dataTableToJSON(materialName,data);
 		$('textarea#output').val(JSON.stringify(newMaterial));
@@ -114,24 +115,41 @@ $(document).ready(function(){
 
 		//then material object
 		materialData[materialName] = newMaterial;
-			
+		
 	})
 	//Load Button
 	$('#loadButton').click(function(event){
 		event.preventDefault();
-		data = [];
-		materialName = $('select#savedList option:selected').val();
+		var materialName = $('select#savedList option:selected').val();
 		$('#materialTitle').val(materialName);
 		var jsonData = $.parseJSON(localStorage.getItem(materialName));
+		data.length = jsonData.Indices.length;
 		console.log("Loading: " + materialName);
+		newMaterial = new material(materialName);
 		for (i=0; i<jsonData.Indices.length; i++){
-			data[i]= [jsonData.Indices[i]['lambda'], jsonData.Indices[i]['n'], jsonData.Indices[i]['k']];		
+		data[i]= [jsonData.Indices[i]['lambda'], jsonData.Indices[i]['n'], jsonData.Indices[i]['k']];		
 		};
 		$('div#dataTable').handsontable({ 
 				data: data	
-			});
+		});
 		$('textarea#output').val(JSON.stringify(jsonData));
-			
+		// broaden scope of this material by attaching to materialData object. 
+		// First save material name as string
+		materialData.newMaterialName = materialName;
+		//then save material object
+		materialData[materialName] = newMaterial;
+		
+	});
+	//Delete Button
+	$('#deleteButton').click(function(event){
+		event.preventDefault();
+		var materialName = $('select#savedList option:selected').val();
+		var decision = confirm("Are you sure you'd like to delete " + materialName);
+		if (decision == true) {
+			localStorage.removeItem(materialName);
+			console.log(materialName + " was deleted.")
+			updateSaved();		
+		} else {console.log("Material was not deleted.")}
 	});
 });
 

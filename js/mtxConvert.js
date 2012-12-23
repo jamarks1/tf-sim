@@ -108,6 +108,7 @@ $(document).ready(function () {
 		//turn data table to json.
 		dataTableToJSON(materialName,data);
 		$('textarea#output').val(JSON.stringify(newMaterial));
+		updateGraph(data);
 
 		// broaden scope of this material by attaching to materialData object. 
 		// First material name as string
@@ -133,6 +134,7 @@ $(document).ready(function () {
 				data: data	
 		});
 		$('textarea#output').val(JSON.stringify(jsonData));
+		updateGraph(data);
 		// broaden scope of this material by attaching to materialData object. 
 		// First save material name as string
 		materialData.newMaterialName = materialName;

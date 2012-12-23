@@ -45,5 +45,9 @@ function updateSaved() {
 	};
 };
 
+//Update the graph
+function updateGraph(data) {
+	$.plot($('div#graph'),[data]);
+};
 
 

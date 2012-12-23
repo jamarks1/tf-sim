@@ -18,7 +18,7 @@ body {
         position: relative;
         float:right;
 	width: 400px;
-	height: 475px;
+	height: 250px;
         margin: 2px;
 	resize: none;
 }
@@ -33,9 +33,19 @@ a.button {
 	
 }
 
+#graph {
+	width:400px;
+	height:250px;
+	float: right;
+	margin: 0px;
+	background: #FFFFFF;
+	border: solid 1px;	
+}
+
 #resultArea {
     width: 400px;
     float: right;
+    margin: 0px;
 }
 
 
@@ -45,7 +55,7 @@ a.button {
 	float: left;
 	height: 500px;
 	width: 400px;
-	overflow-y: scroll;
+	overflow: scroll;
  
 }
 
@@ -58,3 +68,4 @@ input#materialTitle {
     border: none;
     background: #FFFEEE
 }
+

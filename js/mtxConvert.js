@@ -94,13 +94,13 @@ $(document).ready(function () {
 			} else { 
 				var storedMaterial = localStorage.getItem(materialName);
 				saveMaterial = JSON.stringify(materialData[materialName]);
-				console.log(saveMaterial);
+
 				if (saveMaterial == undefined) {
 					$('div#output').append("File already saved. <br/>");
 				} else {
 					var decision = confirm("A different file by this name already exists in the database. Do you want to replace the file with this file?") 
 					if (decision == true){
-								localStorage.setItem(materialName.slice(9), saveMaterial);} else { 
+								localStorage.setItem(materialName, saveMaterial);} else { 
 						alert("Save file under different file name.");
 						return false;
 					}
@@ -118,8 +118,6 @@ $(document).ready(function () {
 		dataTableToJSON(materialName,data);
 		//$('div#output').val(JSON.stringify(newMaterial));
 		updateGraph(data);
-		console.log(newMaterial);
-
 
 		// broaden scope of this material by attaching to materialData object. 
 		// First material name as string
@@ -127,7 +125,6 @@ $(document).ready(function () {
 
 		//then material object
 		materialData[materialName] = newMaterial;
-		console.log(materialData[materialName]);
 		
 	})
 	//Load Button

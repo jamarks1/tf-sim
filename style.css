@@ -3,24 +3,21 @@ body {
      }
      
 #container {
-	width: 850px;
+	width: 800px;
 	margin-left:auto;
 	margin-right:auto;
 }
 
- table,td {
-	border: solid black 1px;
-	width: 383px;
-	background: #FFFFFF;
-} 
+
 
 #output {
         position: relative;
         float:right;
-	width: 400px;
+	width: 357px;
 	height: 150px;
         margin: 2px;
-	resize: none;
+	overflow: auto;
+	border: solid 1px #EEEDDD;
 }
 a.button {
         color: black;
@@ -53,17 +50,26 @@ a.button {
 	float: left;
 	height: 500px;
 	width: 400px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: auto;
  
 }
 
-input#materialTitle {
+input#materialTitle, input#recipeName {
     position:relative;
-    margin: 0px;
+    margin: 10px;
     font-size: 1.5em;
     width: 400px;
     text-align: center;
     border: none;
-    background: #FFFEEE
+    background: #FFFEEE;
+    width: 730px;
+}
+
+div#dataContainer {
+    float: left;
+    width: 400px;
+    height: 510px;
+    overflow:hidden;
 }
 

@@ -27,6 +27,7 @@ function dataTableToJSON(materialName,data){
 		//Make a new material from material class, make array length equal to data points
 		newMaterial = new material(materialName);
 		newMaterial.Indices.length = data.length;
+		console.log(data);
 		for (i=0; i<data.length; i++){
 				for (j=0; j<data[0].length; j++) {
 					for (i=0; i<data.length; i++){ newMaterial.Indices[i] = {"lambda": data[i][0], "n": data[i][1], "k": data[i][2]}};
@@ -41,7 +42,9 @@ function updateSaved() {
 	$('select#savedList').html("");
 	var savedMaterials = Object.keys(localStorage);
 	for (i=0; i<savedMaterials.length; i++) {
-		$('#savedList').append('<option>' + savedMaterials[i] + '</option>');
+		if (savedMaterials[i].indexOf('material.') === 0) {
+			$('#savedList').append('<option>' + savedMaterials[i].slice(9) + '</option>');
+		}
 	};
 };
 

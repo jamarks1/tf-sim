@@ -2,6 +2,9 @@
 
 $(document).ready(function () {
 
+	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
+	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+
 	// materialData will have other material objects attached to it
 	var materialData = {};
 	var data = [];
@@ -10,6 +13,7 @@ $(document).ready(function () {
 	// get the saved local materials
 	updateSaved();
 
+
 	// Initialize data table
 	$('div#dataTable').handsontable({
 			startRows: 19,
@@ -17,19 +21,21 @@ $(document).ready(function () {
 			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]
 					
 		});
+	// Initialize graph
+	$.plot($('div#graph'), [0,0]);
 
 //Importing from Essential Macleod----------------------------------------------------------------------
 	$('#upload').change(function () {
 
 		// remove the previous table
 		//var data = [];
-		$('textarea#output').val("");
+		$('div#output').val("");
 
 		// upload file chosen from input, make a Filereader, read file as text
 		var uploadFile = $('#upload').get(0).files[0];
 		var reader = new FileReader();
-		reader.onload = function(){console.log("Loading file " + uploadFile.name);};
-		reader.onerror = function(){console.log("Oops! Try again.");};
+		reader.onload = function(){$('div#output').append("Loading file " + uploadFile.name + '<br/>');};
+		reader.onerror = function(){$('div#output').append("Oops! Try again. <br/>");};
 		reader.readAsText(uploadFile);		
 		reader.onloadend = loaded;
 
@@ -57,12 +63,14 @@ $(document).ready(function () {
 
 			// Now to get this into JSON format(see corresponding function)-----------------
 			mtxToJSON(materialName,nkpoints,notes);
-
+			
 			// Display resulting JSON to output		
-			$('textarea#output').val(JSON.stringify(newMaterial));
+			//$('div#output').append(JSON.stringify(newMaterial));
+			updateGraph(data);
 			// broaden scope of this material by attaching to materialData object. 
 			// First save material name as string
 			materialData.newMaterialName = materialName;
+
 			//then save material object
 			materialData[materialName] = newMaterial;
 		};
@@ -72,43 +80,46 @@ $(document).ready(function () {
 	// Save button
 	$('a#saveButton').click(function(event){
 		event.preventDefault();
-		var newMaterialName = materialData.newMaterialName;
+		var materialName = "material." + $('#materialTitle').val();
 		//If there is a file to save. Else,"hey no file."
-		if (newMaterialName != undefined) {
+		if (materialName != "material.") {
 			// And if we aren't overwriting a previous key
-			if (localStorage.getItem(newMaterialName) == null){
-				saveMaterial = JSON.stringify(materialData[newMaterialName]);
-				localStorage.setItem(newMaterialName, saveMaterial);
-				console.log("Saved new material file: " + newMaterialName);
+			if (localStorage.getItem(materialName) == null){
+				saveMaterial = JSON.stringify(materialData[materialName.slice(9)]);
+				localStorage.setItem(materialName, saveMaterial);
+				$('div#output').append("Saved new material file: " + materialName + "<br/>");
 				updateSaved();
 				
 			//If there is a difference between files, confirm user wants to overwrite file, else prompt for new name.
 			} else { 
-				var storedMaterial = localStorage.getItem(newMaterialName);
-				saveMaterial = JSON.stringify(materialData[newMaterialName]);
-				if (storedMaterial == saveMaterial) {
-					console.log("File already saved.");
+				var storedMaterial = localStorage.getItem(materialName);
+				saveMaterial = JSON.stringify(materialData[materialName]);
+				console.log(saveMaterial);
+				if (saveMaterial == undefined) {
+					$('div#output').append("File already saved. <br/>");
 				} else {
 					var decision = confirm("A different file by this name already exists in the database. Do you want to replace the file with this file?") 
 					if (decision == true){
-								localStorage.setItem(newMaterialName, saveMaterial);} else { 
+								localStorage.setItem(materialName.slice(9), saveMaterial);} else { 
 						alert("Save file under different file name.");
 						return false;
 					}
 				}
 			}
 
-		} else { console.log("error: No material to save")}
+		} else { $('div#output').append("error: No material to save <br/>")}
 	});
 	//Calculate Button
 	$('#calcButton').click(function(event){
 		event.preventDefault();
 		// Name of file will change according to user input
-		var materialName = $('#materialTitle').val();
+		var materialName = "material." + $('#materialTitle').val();
 		//turn data table to json.
 		dataTableToJSON(materialName,data);
-		$('textarea#output').val(JSON.stringify(newMaterial));
+		//$('div#output').val(JSON.stringify(newMaterial));
 		updateGraph(data);
+		console.log(newMaterial);
+
 
 		// broaden scope of this material by attaching to materialData object. 
 		// First material name as string
@@ -116,16 +127,17 @@ $(document).ready(function () {
 
 		//then material object
 		materialData[materialName] = newMaterial;
+		console.log(materialData[materialName]);
 		
 	})
 	//Load Button
 	$('#loadButton').click(function(event){
 		event.preventDefault();
-		var materialName = $('select#savedList option:selected').val();
-		$('#materialTitle').val(materialName);
+		var materialName = "material." + $('select#savedList option:selected').val();
+		$('#materialTitle').val(materialName.slice(9));
 		var jsonData = $.parseJSON(localStorage.getItem(materialName));
 		data.length = jsonData.Indices.length;
-		console.log("Loading: " + materialName);
+		$('div#output').append("Loading: " + materialName.slice(9) + "<br/>");
 		newMaterial = new material(materialName);
 		for (i=0; i<jsonData.Indices.length; i++){
 		data[i]= [jsonData.Indices[i]['lambda'], jsonData.Indices[i]['n'], jsonData.Indices[i]['k']];		
@@ -133,7 +145,7 @@ $(document).ready(function () {
 		$('div#dataTable').handsontable({ 
 				data: data	
 		});
-		$('textarea#output').val(JSON.stringify(jsonData));
+		//$('div#output').append(JSON.stringify(jsonData));
 		updateGraph(data);
 		// broaden scope of this material by attaching to materialData object. 
 		// First save material name as string
@@ -145,13 +157,13 @@ $(document).ready(function () {
 	//Delete Button
 	$('#deleteButton').click(function(event){
 		event.preventDefault();
-		var materialName = $('select#savedList option:selected').val();
-		var decision = confirm("Are you sure you'd like to delete " + materialName);
+		var materialName = "material." + $('select#savedList option:selected').val();
+		var decision = confirm("Are you sure you'd like to delete " + materialName.slice(9));
 		if (decision == true) {
 			localStorage.removeItem(materialName);
-			console.log(materialName + " was deleted.")
+			$('div#output').append(materialName.slice(9) + " was deleted.</br>")
 			updateSaved();		
-		} else {console.log("Material was not deleted.")}
+		} else {$('div#output').append("Material was not deleted.")}
 	});
 });
 

@@ -18,7 +18,8 @@ $(document).ready(function () {
 	$('div#dataTable').handsontable({
 			startRows: 19,
 			startCols: 3,
-			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"]
+			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"],
+			minSpareRows: 1
 					
 		});
 	// Initialize graph

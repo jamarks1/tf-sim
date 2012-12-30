@@ -2,8 +2,8 @@
 
 $(document).ready(function () {
 	
-		//var dataTableWidth = document.getElementById("dataTable").scrollWidth;
-		//document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
+	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
 	
 
 	// materialData will have other material objects attached to it
@@ -16,13 +16,13 @@ $(document).ready(function () {
 
 
 	// Initialize data table
-	$('div#dataTable').handsontable({
-			startRows: 19,
-			startCols: 3,
-			colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"],
-			minSpareRows: 1
-					
-		});
+	$('div.materialTable').handsontable({
+		startRows: 19,
+		startCols: 3,
+		colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"],
+		minSpareRows: 1		
+	});
+		
 	// Initialize graph
 	$.plot($('div#graph'), [0,0]);
 
@@ -59,7 +59,7 @@ $(document).ready(function () {
 				data[i] = [Math.round(parseFloat($(nkpoints[i]).attr('W'))*10)/10,Math.round(parseFloat($(nkpoints[i]).attr('n'))*1000)/1000, Math.round(parseFloat($(nkpoints[i]).attr('k'))*1000000)/1000000]
 			};
 			//data.push(notes); todo
-			$('div#dataTable').handsontable({ 
+			$('div.materialTable').handsontable({ 
 				data: data	
 			});
 
@@ -141,7 +141,7 @@ $(document).ready(function () {
 		for (i=0; i<jsonData.Indices.length; i++){
 		data[i]= [jsonData.Indices[i]['lambda'], jsonData.Indices[i]['n'], jsonData.Indices[i]['k']];		
 		};
-		$('div#dataTable').handsontable({ 
+		$('div.materialTable').handsontable({ 
 				data: data	
 		});
 		//$('div#output').append(JSON.stringify(jsonData));

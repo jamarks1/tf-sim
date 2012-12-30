@@ -1,10 +1,15 @@
 $(document).ready(function(){
+	
+	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
+	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+	
 	//Initialize recipeTable
 	//var data = [];
 	
 	
-	$('div#recipeTable').handsontable({
+	$('div.recipeTable').handsontable({
 		minRows: 19,
+		minSpareRows: 1,
 		colHeaders: ["Layer", "Material", "   n   ", "   k   ", "Thickness"], 
 		columns: [{data: "Layer"},
 			{data:"Material", 
@@ -21,9 +26,9 @@ $(document).ready(function(){
 			}
 			return cellProperties;
 		},
-		data: data
+		data: recipeData
 	});
-	updateRecipeTableNumberLayers(data);
+	updateRecipeTableNumberLayers(recipeData);
 	
 	// Initialize graph
 	$.plot($('div#graph'), [0,0]);
@@ -32,6 +37,8 @@ $(document).ready(function(){
 	// Calculate Button
 	$('a#recipeCalcButton').click(function(event){
 		event.preventDefault();
+		//Updata Layer Numbers
+		updateRecipeTableNumberLayers(recipeData);
 		//Update Table Index
 		updateRecipeTableIndex();
 	});
@@ -53,19 +60,21 @@ function updateRecipeTableSavedMaterials(){
 }
 
 // Called when Layers numbers change
-function updateRecipeTableNumberLayers(data) {
-	for (i=0; i<data.length; i++){
-		data[i]["Layer"]=i+1;
+function updateRecipeTableNumberLayers(recipeData) {
+	for (i=0; i<recipeData.length; i++){
+		if (recipeData[i].Material != undefined) {
+			recipeData[i]["Layer"]=i+1;
+		}
 	}
-	$('div#recipeTable').handsontable('render');
+	$('div.recipeTable').handsontable('render');
 }
 
 // the index of the material corresponding to the wavelength of interest
 function updateRecipeTableIndex(){
 	var wavelength =  parseInt($('input#wavelength').val());
-	for (i=0; i<data.length; i++) {
-		if (data[i].Material != undefined || data[i].Material != null){
-			var materialName = data[i].Material;
+	for (i=0; i<recipeData.length; i++) {
+		if (recipeData[i].Material != undefined || recipeData[i].Material != null){
+			var materialName = recipeData[i].Material;
 			var n = JSON.parse(localStorage.getItem("material." + materialName));
 			// This code will find the two wavelengths in material table closest to
 			// wavelength of interest and take a proportion of both relative to the
@@ -108,12 +117,12 @@ function updateRecipeTableIndex(){
 		var Index = Math.round((Index1 + Index2)*1000)/1000;
 		var Extinction = Math.round((Extinction1 + Extinction2)*1000000)/1000000;
 
-		data[i].n = Index;
-		data[i].k = Extinction;
+		recipeData[i].n = Index;
+		recipeData[i].k = Extinction;
 		}
 		
 	}
-	$('div#recipeTable').handsontable('render');
+	$('div.recipeTable').handsontable('render');
 }
 
 //----------------------------------------------------------End Autocomplete cells--------

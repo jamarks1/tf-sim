@@ -3,9 +3,9 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="js/environment.js"></script>
 		<script type="text/javascript" src="js/recipe.js"></script>
-		<script type="text/javascript" src="js/materialData.js"></script>
-		<script type="text/javascript" src="js/mtxConvert.js"></script>
+		
 		<script type="text/javascript" src="dist/jquery.handsontable.full.js"></script>
 		<script type="text/javascript" src="js/jquery.flot.js"></script>
 		<link rel="stylesheet" media="screen" href="dist/jquery.handsontable.full.css">
@@ -17,16 +17,18 @@
 	<input type="text" id="recipeName"/>
 	
 		<script>
-		var data = [];
-		var materialData = {};
+		var recipeData = [];
+		var materialData = [];
 		
 		</script>
 	<div id="environmentContainer">
 	<p>Wavelength:<input type="text" id="wavelength" value="600"/></p>
+	<p><a href="material" id="Material">Materials</a></p>
+	<p><a href="Recipe.html" id="Recipe">Recipe</a></p>
 	</div>
 
 	<div id="dataContainer">
-	<div id="recipeTable" class></div>
+	<div id="dataTable" class="recipeTable"></div>
 	<a href="calcButton" id="recipeCalcButton" class="button">Calculate</a>
 	</div>
 	
@@ -43,7 +45,6 @@
 		
 	
 	</div>
-		<a href="Materials.html" id="Materials">Materials</a>
 		
 	</body>
 </html>

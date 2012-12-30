@@ -21,7 +21,7 @@ function mtxToJSON (materialName,nkpoints,notes){
 	//newMaterial.Notes = notes; todo
 	return newMaterial;
 };
-
+		
 // Take info from dataTable and turn into json
 function dataTableToJSON(materialName,data){
 		//Make a new material from material class, make array length equal to data points

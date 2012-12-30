@@ -1,9 +1,10 @@
 //Material.js
 
 $(document).ready(function () {
-
-	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
-	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+	
+		//var dataTableWidth = document.getElementById("dataTable").scrollWidth;
+		//document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+	
 
 	// materialData will have other material objects attached to it
 	var materialData = {};
@@ -117,7 +118,7 @@ $(document).ready(function () {
 		var materialName = "material." + $('#materialTitle').val();
 		//turn data table to json.
 		dataTableToJSON(materialName,data);
-		//$('div#output').val(JSON.stringify(newMaterial));
+		
 		updateGraph(data);
 
 		// broaden scope of this material by attaching to materialData object. 

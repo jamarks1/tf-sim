@@ -3,7 +3,7 @@ body {
      }
      
 #container {
-	width: 800px;
+	width: 1000px;
 	margin-left:auto;
 	margin-right:auto;
 }
@@ -73,3 +73,7 @@ div#dataContainer {
     overflow:hidden;
 }
 
+div#environmentContainer {
+    float: left;
+    width: 200px;
+}

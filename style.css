@@ -3,7 +3,8 @@ body {
      }
      
 #container {
-	width: 1000px;
+	width: 1024px;
+	height: 768px;
 	margin-left:auto;
 	margin-right:auto;
 }
@@ -13,8 +14,8 @@ body {
 #output {
         position: relative;
         float:right;
-	width: 357px;
-	height: 150px;
+	width: 475px;
+	height: 110px;
         margin: 2px;
 	overflow: auto;
 	border: solid 1px #EEEDDD;
@@ -31,20 +32,20 @@ a.button {
 }
 
 #graph {
-	width:390px;
+	width:500px;
 	height:350px;
 	float: right;
 	margin: 0px;
 }
 
 #resultArea {
-    width: 400px;
+    width: 424px;
     float: right;
     margin: 0px;
 }
 
 
-#dataTable, #recipeTable {
+#dataTable {
 	position: relative;
 	margin-top: 0px;    
 	float: left;
@@ -69,7 +70,7 @@ input#materialTitle, input#recipeName {
 div#dataContainer {
     float: left;
     width: 400px;
-    height: 510px;
+    height: 520px;
     overflow:hidden;
 }
 

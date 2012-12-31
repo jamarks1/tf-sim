@@ -4,11 +4,32 @@ $(document).ready(function(){
 	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
 	
 	//Initialize recipeTable
-	//var data = [];
+	renderRecipeTable(recipeData);
+	updateRecipeTableNumberLayers(recipeData);
 	
+	// Initialize graph
+	$.plot($('div#graph'), [0,0]);
 	
+//----Buttons--------------------------------------------------------------------------------	
+	// Calculate Button
+	$('a#recipeCalcButton').click(function(event){
+		event.preventDefault();
+		//Updata Layer Numbers
+		updateRecipeTableNumberLayers(recipeData);
+		//Update Table Index
+		updateRecipeTableIndex();
+	});
+	
+});
+//----------------------------------------------------------end of on document ready section
+
+//update HandsonTable autocompleteCells-----------------------------------------------------
+
+// Display recipe Table
+function renderRecipeTable(recipeData) {
 	$('div.recipeTable').handsontable({
 		minRows: 19,
+		Cols: 5,
 		minSpareRows: 1,
 		colHeaders: ["Layer", "Material", "   n   ", "   k   ", "Thickness"], 
 		columns: [{data: "Layer"},
@@ -29,25 +50,9 @@ $(document).ready(function(){
 		data: recipeData
 	});
 	updateRecipeTableNumberLayers(recipeData);
-	
-	// Initialize graph
-	$.plot($('div#graph'), [0,0]);
-	
-//----Buttons--------------------------------------------------------------------------------	
-	// Calculate Button
-	$('a#recipeCalcButton').click(function(event){
-		event.preventDefault();
-		//Updata Layer Numbers
-		updateRecipeTableNumberLayers(recipeData);
-		//Update Table Index
-		updateRecipeTableIndex();
-	});
-	
-});
-//----------------------------------------------------------end of on document ready section
+}
 
-//update HandsonTable autocompleteCells-----------------------------------------------------
-// The saved materials list. Same as updateSaved() for materials savedList
+// The materials drop down list.
 function updateRecipeTableSavedMaterials(){
 	var savedMaterials = Object.keys(localStorage);
 	var savedList = [];
@@ -59,7 +64,7 @@ function updateRecipeTableSavedMaterials(){
 	return savedList;
 }
 
-// Called when Layers numbers change
+// Layer numbers
 function updateRecipeTableNumberLayers(recipeData) {
 	for (i=0; i<recipeData.length; i++){
 		if (recipeData[i].Material != undefined) {

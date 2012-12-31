@@ -5,7 +5,7 @@
 		<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 		<script type="text/javascript" src="js/environment.js"></script>
 		<script type="text/javascript" src="js/recipe.js"></script>
-		
+		<script type="text/javascript" src="js/material.js"></script>
 		<script type="text/javascript" src="dist/jquery.handsontable.full.js"></script>
 		<script type="text/javascript" src="js/jquery.flot.js"></script>
 		<link rel="stylesheet" media="screen" href="dist/jquery.handsontable.full.css">
@@ -14,33 +14,37 @@
 	
 	
 	<div id="container">
-	<input type="text" id="recipeName"/>
+		<input type="text" id="recipeName"/>
 	
 		<script>
 		var recipeData = [];
-		var materialData = [];
+		var materialData = [{},{},{}]
 		
 		</script>
-	<div id="environmentContainer">
-	<p>Wavelength:<input type="text" id="wavelength" value="600"/></p>
-	<p><a href="material" id="Material">Materials</a></p>
-	<p><a href="Recipe.html" id="Recipe">Recipe</a></p>
-	</div>
+		<div id="environmentContainer">
+			<p>Wavelength:<input type="text" id="wavelength" value="600"/></p>
+			<p><a href="material" id="Material">Materials</a></p>
+				<div id="recipeContainer"><p><a href="Recipe.html" id="Recipe">Recipe</a></p>
+					<p><select id="recipeList"></select><a href="loadButton" id="loadButton" class="button">Load</a></p>
+					<p><a href="saveButton" id="recipeSaveButton" class="button">Save</a></p>
+					<p><a href="deleteButton" id="recipeDeleteButton" class="button">Delete</a></p>
+				</div>
+		</div>
+	
+	
 
 	<div id="dataContainer">
-	<div id="dataTable" class="recipeTable"></div>
-	<a href="calcButton" id="recipeCalcButton" class="button">Calculate</a>
+		<div id="dataTable" class="recipeTable"></div>
+		<a href="calcButton" id="recipeCalcButton" class="button">Calculate</a>
 	</div>
 	
 
 	<div id="resultArea">
 	<div id="graph"></div>
-	<div id="output"></div>
-	
-	<span><select id="recipeList"></select><a href="loadButton" id="loadButton" class="button">Load</a></span>
-	<a href="saveButton" id="recipeSaveButton" class="button">Save</a>
-	<a href="deleteButton" id="recipeDeleteButton" class="button">Delete</a>
+	<div id="output">
 	</div>
+	
+	
 		
 		
 	

@@ -11,6 +11,7 @@ $(document).ready(function(){
 	// Calculate Button
 	$('a#recipeCalcButton').click(function(event){
 		event.preventDefault();
+		//In case user decides to fool around :)
 		removeEmptyRows();
 		//Update Layer Numbers
 		updateRecipeTableNumberLayers(recipeData);
@@ -89,14 +90,22 @@ function updateRecipeTableSavedMaterials(){
 
 //Check for empty rows in recipe, delete if any.
 function removeEmptyRows() {
-        for (i = 0 ; i < recipeData.length ; i++) {
-                if (recipeData[i].Material==null){
-                        delete recipeData[i];
-                        recipeData.splice(i,1);
-                        if (recipeData.length < 19) {
-                                recipeData.push({"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null});
-                        }
+        var num = 0;
+        var index = [];
+        // First get number of filled in rows and their index
+        for (i = 0; i < recipeData.length; i++) {
+                if (recipeData[i].Material !== null) {
+                        num += 1;
+                        index.push(i);
                 }
+        }
+        // iterate over number of rows by index
+        for (i = 0 ; i < num ; i++) {
+                recipeData[i] = recipeData[index[i]];
+        }
+        // empty left over rows
+        for (i = num ; i < recipeData.length ; i++) {
+                recipeData.splice(i,1,{"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null})
         }
 }
 
@@ -222,6 +231,7 @@ function saveRecipe(recipeData) {
 	// place in storage with a key equal to the recipe Name.
 	localStorage.setItem(recipeName, jsonString);
 	}
+	$('div#output').append("Recipe file saved: " + recipeName + "<br/>");
 }
 
 //Delete from storage

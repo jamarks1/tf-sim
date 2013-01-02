@@ -8,6 +8,7 @@ $(document).ready(function(){
 	//var materialData = [{},{},{}]
 	
 	updateRecipeList();
+	$('div#output').append("_____________________Thin Film Simulator___________________<br/> ready...<br/>");
 	
 	//Recipe environment or material environment
 	$('a#Recipe').click(function(event){

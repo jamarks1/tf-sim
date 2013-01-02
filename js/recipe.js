@@ -1,8 +1,5 @@
 $(document).ready(function(){
 	
-	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
-	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
-	
 	//Initialize recipeTable
 	renderRecipeTable(recipeData);
 	updateRecipeTableNumberLayers(recipeData);
@@ -10,27 +7,53 @@ $(document).ready(function(){
 	// Initialize graph
 	$.plot($('div#graph'), [0,0]);
 	
-//----Buttons--------------------------------------------------------------------------------	
+//----Buttons-------------------------------------------------------------------	
 	// Calculate Button
 	$('a#recipeCalcButton').click(function(event){
 		event.preventDefault();
-		//Updata Layer Numbers
+		removeEmptyRows();
+		//Update Layer Numbers
 		updateRecipeTableNumberLayers(recipeData);
 		//Update Table Index
-		updateRecipeTableIndex();
+		updateRecipeTableNK();
+		
 	});
 	
+	// Load Button
+	$('a#recipeLoadButton').click(function(event){
+		event.preventDefault();
+		loadRecipe();
+		
+		updateRecipeTableNumberLayers(recipeData);
+		updateRecipeTableNK();
+	
+	});
+	
+	// Save Button
+	$('a#recipeSaveButton').click(function(event){
+		event.preventDefault();
+		saveRecipe(recipeData);
+		updateRecipeList();
+	});
+	
+	// Delete Button
+	$('a#recipeDeleteButton').click(function(event){
+	        event.preventDefault();
+	        deleteRecipe();
+	});
 });
-//----------------------------------------------------------end of on document ready section
+//--------------------------------------------end of on document-- ready section
 
-//update HandsonTable autocompleteCells-----------------------------------------------------
+//update HandsonTable autocompleteCells-----------------------------------------
 
 // Display recipe Table
 function renderRecipeTable(recipeData) {
 	$('div.recipeTable').handsontable({
 		minRows: 19,
 		Cols: 5,
+		dataSchema: {Layer: null, Material: null,  n: null, k: null, Thickness: null},
 		minSpareRows: 1,
+		RemoveRow: true,
 		colHeaders: ["Layer", "Material", "   n   ", "   k   ", "Thickness"], 
 		columns: [{data: "Layer"},
 			{data:"Material", 
@@ -49,25 +72,38 @@ function renderRecipeTable(recipeData) {
 		},
 		data: recipeData
 	});
-	updateRecipeTableNumberLayers(recipeData);
+
 }
 
 // The materials drop down list.
 function updateRecipeTableSavedMaterials(){
-	var savedMaterials = Object.keys(localStorage);
+	var savedItems = Object.keys(localStorage);
 	var savedList = [];
-	for (i=0; i<savedMaterials.length; i++) {
-		if (savedMaterials[i].indexOf('material.') === 0) {
-			savedList[i] = savedMaterials[i].slice(9);
+	for (i=0; i<savedItems.length; i++) {
+		if (localStorage.getItem(savedItems[i]).indexOf('materialName') == 2) {
+			savedList.push(savedItems[i].slice(9));
 		}
 	}
 	return savedList;
 }
 
+//Check for empty rows in recipe, delete if any.
+function removeEmptyRows() {
+        for (i = 0 ; i < recipeData.length ; i++) {
+                if (recipeData[i].Material==null){
+                        delete recipeData[i];
+                        recipeData.splice(i,1);
+                        if (recipeData.length < 19) {
+                                recipeData.push({"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null});
+                        }
+                }
+        }
+}
+
 // Layer numbers
 function updateRecipeTableNumberLayers(recipeData) {
 	for (i=0; i<recipeData.length; i++){
-		if (recipeData[i].Material != undefined) {
+		if (recipeData[i].Material && recipeData[i].Thickness) {
 			recipeData[i]["Layer"]=i+1;
 		}
 	}
@@ -75,10 +111,10 @@ function updateRecipeTableNumberLayers(recipeData) {
 }
 
 // the index of the material corresponding to the wavelength of interest
-function updateRecipeTableIndex(){
+function updateRecipeTableNK(){
 	var wavelength =  parseInt($('input#wavelength').val());
 	for (i=0; i<recipeData.length; i++) {
-		if (recipeData[i].Material != undefined || recipeData[i].Material != null){
+		if (recipeData[i].Material && recipeData[i].Thickness){
 			var materialName = recipeData[i].Material;
 			var n = JSON.parse(localStorage.getItem("material." + materialName));
 			// This code will find the two wavelengths in material table closest to
@@ -124,12 +160,88 @@ function updateRecipeTableIndex(){
 
 		recipeData[i].n = Index;
 		recipeData[i].k = Extinction;
-		}
+		} else {
+			recipeData[i] = {"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null}
+			}
 		
 	}
 	$('div.recipeTable').handsontable('render');
 }
 
-//----------------------------------------------------------End Autocomplete cells--------
+//------------------------------------------------End Autocomplete cells--------
+//Recipe List
+function updateRecipeList() {
+	$('select#recipeList').html("");
+	var saved = Object.keys(localStorage);
+	
+	for (i=0; i<saved.length; i++) {
+		if (localStorage.getItem(saved[i]).indexOf('recipeName') == 2) {
+			$('#recipeList').append('<option>' + saved[i] + '</option>');
+		}
+	};
+};
+
+
+//Function for loading a recipe from local storage.
+function loadRecipe() {
+	var recipeName = $('select#recipeList option:selected').val();
+	$('#recipeName').val(recipeName);
+	document.title = recipeName;
+	// retrieve recipe from storage
+	var jsonData = $.parseJSON(localStorage.getItem(recipeName));
+	$('div#output').append("Loading Recipe: " + recipeName + "<br/>");
+	
+	//construct recipe table	
+	for (i=0; i<jsonData.Layers.length; i++){
+		recipeData[i].Thickness = jsonData.Layers[i].Thickness;
+		recipeData[i].Material = jsonData.Layers[i].Material;
+		recipeData[i].Layer = jsonData.Layers[i].Layer;
+		recipeData[i].length = 0;
+	};
+	//remove any cells from previously loaded recipes
+	for (i=jsonData.Layers.length; i < recipeData.length ; i++) {
+			recipeData[i] = {"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null};
+		}
+};
+
+//Function for saving a recipe to local storage.
+function saveRecipe(recipeData) {
+	var recipeName = $('input#recipeName').val();
+	var wavelength = $('input#wavelength').val();
+	// make new recipe object
+	var jsonData = new recipe(wavelength, recipeName);
+
+	for (i = 0 ; i < recipeData.length ; i++) {
+	        //skip over blank fields, build recipe
+		if (recipeData[i].Material && recipeData[i].Thickness) { 
+			jsonData.Layers[i] = { "Thickness": recipeData[i].Thickness, "Material": recipeData[i].Material, "Layer": recipeData[i].Layer}
+		}
+		
+	// Store a new recipe in a string
+	var jsonString = JSON.stringify(jsonData);
+	// place in storage with a key equal to the recipe Name.
+	localStorage.setItem(recipeName, jsonString);
+	}
+}
+
+//Delete from storage
+function deleteRecipe() {
+        var recipeName = $('input#recipeName').val();
+        var decision = confirm("Are you sure you want to delete recipe " + recipeName);
+        if (decision) {
+                localStorage.removeItem(recipeName);
+                updateRecipeList();
+        }
+        
+};
+
+// Initialize the recipe template
+var recipe = function (wavelength, recipeName) {
+	this.recipeName = recipeName;
+	this.Wavelength = wavelength;
+	this.Layers = [{"Layer": 0, "Thickness": 0}]
+}
+
+
 
 

@@ -19,6 +19,7 @@ body {
         margin: 2px;
 	overflow: auto;
 	border: solid 1px #EEEDDD;
+	font-family: monospace;
 }
 a.button {
         color: black;

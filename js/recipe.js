@@ -2,22 +2,28 @@ $(document).ready(function(){
 	
 	//Initialize recipeTable
 	renderRecipeTable(recipeData);
-	updateRecipeTableNumberLayers(recipeData);
+
 	
 	// Initialize graph
 	$.plot($('div#graph'), [0,0]);
 	
-//----Buttons-------------------------------------------------------------------	
+//----Buttons-------------------------------------------------------------------
+        $('tbody tr').click(function(){updateRecipeTableLayers(recipeData)});
+        	
 	// Calculate Button
 	$('a#recipeCalcButton').click(function(event){
 		event.preventDefault();
 		//In case user decides to fool around :)
 		removeEmptyRows();
 		//Update Layer Numbers
-		updateRecipeTableNumberLayers(recipeData);
+		updateRecipeTableLayers(recipeData);
 		//Update Table Index
 		updateRecipeTableNK();
 		
+	});
+	
+	$('div.htAutocomplete').on('focusin',function(){
+	        updateRecipeTableLayers(recipeData);
 	});
 	
 	// Load Button
@@ -25,7 +31,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		loadRecipe();
 		
-		updateRecipeTableNumberLayers(recipeData);
+		updateRecipeTableLayers(recipeData);
 		updateRecipeTableNK();
 	
 	});
@@ -54,7 +60,6 @@ function renderRecipeTable(recipeData) {
 		Cols: 5,
 		dataSchema: {Layer: null, Material: null,  n: null, k: null, Thickness: null},
 		minSpareRows: 1,
-		RemoveRow: true,
 		colHeaders: ["Layer", "Material", "   n   ", "   k   ", "Thickness"], 
 		columns: [{data: "Layer"},
 			{data:"Material", 
@@ -64,16 +69,16 @@ function renderRecipeTable(recipeData) {
 			{data: "n"},
 			{data: "k"}, 
 			{data: "Thickness"}],
-		cells: function(row, col, prop){
+		cells: function(row, col, prop, td){
 			var cellProperties = {};
 			if (col == 0 || col == 2 || col == 3) {
 				cellProperties.readOnly = true;
 			}
+			
 			return cellProperties;
 		},
 		data: recipeData
 	});
-
 }
 
 // The materials drop down list.
@@ -99,7 +104,7 @@ function removeEmptyRows() {
                         index.push(i);
                 }
         }
-        // iterate over number of rows by index
+        // iterate over number of rows by index- this pushes rows together
         for (i = 0 ; i < num ; i++) {
                 recipeData[i] = recipeData[index[i]];
         }
@@ -109,10 +114,10 @@ function removeEmptyRows() {
         }
 }
 
-// Layer numbers
-function updateRecipeTableNumberLayers(recipeData) {
+// All Layer numbers
+function updateRecipeTableLayers(recipeData) {
 	for (i=0; i<recipeData.length; i++){
-		if (recipeData[i].Material && recipeData[i].Thickness) {
+		if (recipeData[i].Material) {
 			recipeData[i]["Layer"]=i+1;
 		}
 	}
@@ -122,13 +127,14 @@ function updateRecipeTableNumberLayers(recipeData) {
 // the index of the material corresponding to the wavelength of interest
 function updateRecipeTableNK(){
 	var wavelength =  parseInt($('input#wavelength').val());
+	var noThick = 0; //Catch layers without a thickness
 	for (i=0; i<recipeData.length; i++) {
 		if (recipeData[i].Material && recipeData[i].Thickness){
 			var materialName = recipeData[i].Material;
 			var n = JSON.parse(localStorage.getItem("material." + materialName));
-			// This code will find the two wavelengths in material table closest to
-			// wavelength of interest and take a proportion of both relative to the
-			// wavelength. This will allow us to extrapolate based on the data we have. 
+	// This code will find the two wavelengths in material table closest to
+	// wavelength of interest and take a proportion of both relative to the
+	// wavelength. This will allow us to extrapolate based on the data we have. 
 			var hiWavelength = 0;
 			var hiIndex = 0;
 			var loWavelength = 0; 
@@ -169,11 +175,17 @@ function updateRecipeTableNK(){
 
 		recipeData[i].n = Index;
 		recipeData[i].k = Extinction;
-		} else {
-			recipeData[i] = {"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null}
+		} else if (recipeData[i].Material && !recipeData[i].Thickness){
+                                noThick += 1;
+			} else {
+			        recipeData[i] = {"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null}
 			}
-		
 	}
+	if (noThick != 0) {
+	        $('div#output').append("Thicknesses for " + noThick + " layers missing.<br/>");
+	}
+	
+	
 	$('div.recipeTable').handsontable('render');
 }
 
@@ -188,6 +200,8 @@ function updateRecipeList() {
 			$('#recipeList').append('<option>' + saved[i] + '</option>');
 		}
 	};
+	//No recipe selected until selected
+	$('select#recipeList').prepend('<option value=""></option>')
 };
 
 

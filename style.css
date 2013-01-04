@@ -57,7 +57,7 @@ a.button {
  
 }
 
-input#materialTitle, input#recipeName {
+input#name {
     position:relative;
     margin: 10px;
     font-size: 1.5em;

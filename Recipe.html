@@ -14,17 +14,25 @@
 	
 	
 	<div id="container">
-		<input type="text" id="recipeName"/>
+		<input type="text" id="name"/>
 	
 		<script>
 		var recipeData = [];
-		var materialData = [{},{},{}]
+		var materialData = [];
 		
 		</script>
 		<div id="environmentContainer">
 			<p>Wavelength:<input type="text" id="wavelength" value="600"/></p>
-			<p><a href="material" id="Material">Materials</a></p>
-				<div id="recipeContainer"><p><a href="Recipe.html" id="Recipe">Recipe</a></p>
+			
+			        <div id="materialContainer" class="category">
+			        <p><a href="material" id="Material">Materials</a></p>
+			                <p><select id="materialList"></select><a href="loadButton" id="materialLoadButton" class="button">Load</a></p>
+					<p><a href="saveButton" id="materialSaveButton" class="button">Save</a></p>
+					<p><a href="deleteButton" id="materialDeleteButton" class="button">Delete</a></p>
+				</div>
+				
+				<div id="recipeContainer" class="category">
+				<p><a href="Recipe.html" id="Recipe">Recipe</a></p>
 					<p><select id="recipeList"></select><a href="loadButton" id="recipeLoadButton" class="button">Load</a></p>
 					<p><a href="saveButton" id="recipeSaveButton" class="button">Save</a></p>
 					<p><a href="deleteButton" id="recipeDeleteButton" class="button">Delete</a></p>

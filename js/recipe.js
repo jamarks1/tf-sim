@@ -8,6 +8,7 @@ $(document).ready(function(){
 	$.plot($('div#graph'), [0,0]);
 	
 //----Buttons-------------------------------------------------------------------
+        //regularly update layer number column
         $('tbody tr').click(function(){updateRecipeTableLayers(recipeData)});
         	
 	// Calculate Button
@@ -207,29 +208,29 @@ function updateRecipeList() {
 
 //Function for loading a recipe from local storage.
 function loadRecipe() {
+        toggleRecipeTable();
 	var recipeName = $('select#recipeList option:selected').val();
-	$('#recipeName').val(recipeName);
+	$('#name').val(recipeName);
 	document.title = recipeName;
 	// retrieve recipe from storage
 	var jsonData = $.parseJSON(localStorage.getItem(recipeName));
-	$('div#output').append("Loading Recipe: " + recipeName + "<br/>");
+	updateOutput("Loading Recipe: " + recipeName + "<br/>");
 	
 	//construct recipe table	
 	for (i=0; i<jsonData.Layers.length; i++){
-		recipeData[i].Thickness = jsonData.Layers[i].Thickness;
-		recipeData[i].Material = jsonData.Layers[i].Material;
-		recipeData[i].Layer = jsonData.Layers[i].Layer;
+	        recipeData[i] = {"Thickness": jsonData.Layers[i].Thickness, "Layer": jsonData.Layers[i].Layer, "Material": jsonData.Layers[i].Material};
 		recipeData[i].length = 0;
 	};
 	//remove any cells from previously loaded recipes
 	for (i=jsonData.Layers.length; i < recipeData.length ; i++) {
 			recipeData[i] = {"Thickness": null, "Layer": null, "Material":null, "n": null, "k": null};
 		}
+	renderRecipeTable(recipeData);
 };
 
 //Function for saving a recipe to local storage.
 function saveRecipe(recipeData) {
-	var recipeName = $('input#recipeName').val();
+	var recipeName = $('input#name').val();
 	var wavelength = $('input#wavelength').val();
 	// make new recipe object
 	var jsonData = new recipe(wavelength, recipeName);
@@ -245,16 +246,17 @@ function saveRecipe(recipeData) {
 	// place in storage with a key equal to the recipe Name.
 	localStorage.setItem(recipeName, jsonString);
 	}
-	$('div#output').append("Recipe file saved: " + recipeName + "<br/>");
+	updateOutput("Recipe file saved: " + recipeName + "<br/>");
 }
 
 //Delete from storage
 function deleteRecipe() {
-        var recipeName = $('input#recipeName').val();
+        var recipeName = $('input#name').val();
         var decision = confirm("Are you sure you want to delete recipe " + recipeName);
         if (decision) {
                 localStorage.removeItem(recipeName);
                 updateRecipeList();
+                updateOutput(recipeName + " deleted.<br/>")
         }
         
 };

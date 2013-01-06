@@ -53,7 +53,7 @@ function renderMaterialTable(materialData) {
 }
 
 
-//Material List
+//update Material List 
 function updateMaterialList() {
 	$('div#materialContainer').empty();
 	var saved = Object.keys(localStorage);
@@ -68,14 +68,13 @@ function updateMaterialList() {
 	
 };
 
-//Load material file from local storage. Very similar to loadRecipe(). Would
-//like to combine in the future.
+//Load material file from local storage. Very similar to loadRecipe().
 function loadMaterial(materialName) {
         toggleMaterialTable();
         $('#name').val(materialName);
         document.title = materialName;
         var jsonData = $.parseJSON(localStorage.getItem(materialName));
-       updateOutput("Loading Material: " + materialName + "<br/>");
+        updateOutput("Loading Material: " + materialName + "<br/>");
         
         //construct material table
         for (i=0; i<jsonData.Indices.length; i++){
@@ -87,7 +86,8 @@ function loadMaterial(materialName) {
 			materialData.splice(i);                
 		}
 	renderMaterialTable(materialData);
-	$.plot($('div#graph'),[materialData]);
+	materialGraph(materialName,materialData);
+	
 }
 
 //Function for saving a material to local storage.
@@ -110,6 +110,7 @@ function saveMaterial(materialData) {
 	}
 	updateOutput("Material file saved: " + materialName + "<br/>");
 	updateMaterialList();
+
 }
 
 //Delete Material function
@@ -123,16 +124,47 @@ function deleteMaterial(){
         }
 }
 
+// Produce materialGraph
+function materialGraph(materialName, materialData) {
+
+         var nPlot = [];
+         var kPlot = [];
+                for (i = 0 ; i < materialData.length; i++) {
+                        nPlot[i] = [materialData[i].lambda , materialData[i].n];
+                        kPlot[i] = [materialData[i].lambda , materialData[i].k];
+                }
+
+        $.plot($('div#graph'),[nPlot,kPlot]);
+}
 
 //Material Functions-----------------------------------------------------------	
 
-// make a new material for importing to JSON format
+// make a new material class
 var material = function (materialName) {
 
-	this.materialName = materialName;
-	this.Indices = [{"lambda": 0, "n": 0 , "k": 0},{"lambda": 0, "n": 0, "k": 0 }];
-	//this.Notes = " "; todo
- };     
-        
+        this.materialName = materialName;
+        this.Indices = [{"lambda": 0, "n": 0 , "k": 0},{"lambda": 0, "n": 0, "k": 0 }];
+
+        //Methods for graphing the data. Not being used right now.
+        material.prototype.plotIndex = function(materialData){
+                var nPlot = [];
+                for (i = 0 ; i < materialData.length; i++) {
+                        nPlot[i] = [materialData[i].lambda , materialData[i].n];
+                }
+        return nPlot;
+        };
+
+         material.prototype.plotExtinction = function(materialData){
+                var kPlot = [];
+                for (i = 0 ; i < materialData.length; i++) {
+                        kPlot[i] = [materialData[i].lambda , materialData[i].k];
+                }
+        return kPlot;
+        };
+};     
+     
+
+       
+ 
         
         

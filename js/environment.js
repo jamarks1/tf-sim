@@ -1,11 +1,15 @@
+
+/*Global recipeData*/
+recipeData = [];
+/*Global materialData */
+materialData = [];
+
 $(document).ready(function(){
 	
 	//hide table scrollbars
 	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
 	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
-	
-	//var recipeData = [];
-	//var materialData = []
+
 	
 	updateRecipeList();
         updateMaterialList();

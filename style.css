@@ -15,7 +15,7 @@ body {
         position: relative;
         float:right;
 	width: 475px;
-	height: 110px;
+	height: 127px;
         margin: 2px;
 	overflow: auto;
 	border: solid 1px #EEEDDD;
@@ -32,9 +32,37 @@ a.button {
 	
 }
 
+div.category p { 
+    width:100%;
+    border-bottom: dashed 1px grey;
+    border-top: dashed 1px grey;
+    margin: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+div.category p a{
+    text-decoration: none;
+    font-family: sans-serif;
+    color: black;
+    margin: 5px;
+}
+
+div.category a {
+    text-decoration: none;
+    color: black;
+    font-family: helvetica;
+    margin-left: 10px;
+}
+
+#newRecipeFile, #newMaterialFile {
+    color: grey;
+    font-style: italic;
+}
+
 #graph {
-	width:500px;
-	height:350px;
+	width:485px;
+	height:550px;
 	float: right;
 	margin: 0px;
 }
@@ -50,7 +78,7 @@ a.button {
 	position: relative;
 	margin-top: 0px;    
 	float: left;
-	height: 500px;
+	height: 700px;
 	width: 400px;
 	overflow-y: scroll;
 	overflow-x: auto;
@@ -59,23 +87,28 @@ a.button {
 
 input#name {
     position:relative;
-    margin: 10px;
-    font-size: 1.5em;
-    width: 400px;
+    margin: 5px;
+    font-size: 22px;
     text-align: center;
     border: none;
     background: #FFFEEE;
-    width: 730px;
+    width: 1024px;
 }
 
 div#dataContainer {
     float: left;
     width: 400px;
-    height: 520px;
     overflow:hidden;
 }
 
 div#environmentContainer {
+    margin-right: 2px;
     float: left;
     width: 200px;
+    border: solid 1px grey;
+}
+
+table.htCore td {
+    padding: 4px;
+    font-size: 1.1em;
 }

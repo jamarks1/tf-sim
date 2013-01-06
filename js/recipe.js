@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 	
 	// Initialize graph
-	$.plot($('div#graph'), [0,0]);
+	$.plot($('div#graph'), [[0,0],[1,2]]);
 	
 //----Buttons-------------------------------------------------------------------
         //regularly update layer number column
@@ -23,32 +23,34 @@ $(document).ready(function(){
 		
 	});
 	
-	$('div.htAutocomplete').on('focusin',function(){
-	        updateRecipeTableLayers(recipeData);
-	});
-	
-	// Load Button
-	$('a#recipeLoadButton').click(function(event){
-		event.preventDefault();
-		loadRecipe();
-		
+	//New recipe file
+        $('a#newRecipeFile').click(function(event){
+                event.preventDefault();
+                recipeData = [];
+                renderRecipeTable(recipeData); 
+        });
+        
+        //Load Recipe. Must reinitiate jquery recipe click after change
+        $(document).on('click','a.recipes',(function(event){
+                event.preventDefault();
+                var recipeName = $(this).text();
+		loadRecipe(recipeName);
 		updateRecipeTableLayers(recipeData);
 		updateRecipeTableNK();
-	
-	});
+		renderRecipeTable(recipeData);
+	}));
 	
 	// Save Button
-	$('a#recipeSaveButton').click(function(event){
+	$(document).on('click','a#saveButton.recipeButton',(function(event){
 		event.preventDefault();
 		saveRecipe(recipeData);
-		updateRecipeList();
-	});
+	}));
 	
-	// Delete Button
-	$('a#recipeDeleteButton').click(function(event){
+        // Delete Button
+	$(document).on('click','a#deleteButton.recipeButton',(function(event){
 	        event.preventDefault();
 	        deleteRecipe();
-	});
+	}));
 });
 //--------------------------------------------end of on document-- ready section
 
@@ -57,7 +59,7 @@ $(document).ready(function(){
 // Display recipe Table
 function renderRecipeTable(recipeData) {
 	$('div.recipeTable').handsontable({
-		minRows: 19,
+		minRows: 21,
 		Cols: 5,
 		dataSchema: {Layer: null, Material: null,  n: null, k: null, Thickness: null},
 		minSpareRows: 1,
@@ -88,7 +90,7 @@ function updateRecipeTableSavedMaterials(){
 	var savedList = [];
 	for (i=0; i<savedItems.length; i++) {
 		if (localStorage.getItem(savedItems[i]).indexOf('materialName') == 2) {
-			savedList.push(savedItems[i].slice(9));
+			savedList.push(savedItems[i]);
 		}
 	}
 	return savedList;
@@ -132,7 +134,7 @@ function updateRecipeTableNK(){
 	for (i=0; i<recipeData.length; i++) {
 		if (recipeData[i].Material && recipeData[i].Thickness){
 			var materialName = recipeData[i].Material;
-			var n = JSON.parse(localStorage.getItem("material." + materialName));
+			var n = JSON.parse(localStorage.getItem(materialName));
 	// This code will find the two wavelengths in material table closest to
 	// wavelength of interest and take a proportion of both relative to the
 	// wavelength. This will allow us to extrapolate based on the data we have. 
@@ -185,31 +187,28 @@ function updateRecipeTableNK(){
 	if (noThick != 0) {
 	        $('div#output').append("Thicknesses for " + noThick + " layers missing.<br/>");
 	}
-	
-	
-	$('div.recipeTable').handsontable('render');
 }
 
 //------------------------------------------------End Autocomplete cells--------
+
 //Recipe List
 function updateRecipeList() {
-	$('select#recipeList').html("");
+	$('div#recipeContainer').empty();
 	var saved = Object.keys(localStorage);
 	
 	for (i=0; i<saved.length; i++) {
 		if (localStorage.getItem(saved[i]).indexOf('recipeName') == 2) {
-			$('#recipeList').append('<option>' + saved[i] + '</option>');
-		}
-	};
-	//No recipe selected until selected
-	$('select#recipeList').prepend('<option value=""></option>')
+			$('div#recipeContainer').append('<a href="' + saved[i] + '" class="recipes">' + saved[i] + '</a><br/>');
+                }
+        };
+        //Clear field for new file
+        $('div#recipeContainer').prepend('<a href="" id="newRecipeFile">new recipe file</a><br/>')
+        
 };
 
-
 //Function for loading a recipe from local storage.
-function loadRecipe() {
+function loadRecipe(recipeName) {
         toggleRecipeTable();
-	var recipeName = $('select#recipeList option:selected').val();
 	$('#name').val(recipeName);
 	document.title = recipeName;
 	// retrieve recipe from storage
@@ -247,6 +246,7 @@ function saveRecipe(recipeData) {
 	localStorage.setItem(recipeName, jsonString);
 	}
 	updateOutput("Recipe file saved: " + recipeName + "<br/>");
+	updateRecipeList();
 }
 
 //Delete from storage
@@ -258,7 +258,7 @@ function deleteRecipe() {
                 updateRecipeList();
                 updateOutput(recipeName + " deleted.<br/>")
         }
-        
+     
 };
 
 // Initialize the recipe template

@@ -21,40 +21,29 @@
 		var materialData = [];
 		
 		</script>
-		<div id="environmentContainer">
-			<p>Wavelength:<input type="text" id="wavelength" value="600"/></p>
-			
-			        <div id="materialContainer" class="category">
-			        <p><a href="material" id="Material">Materials</a></p>
-			                <p><select id="materialList"></select><a href="loadButton" id="materialLoadButton" class="button">Load</a></p>
-					<p><a href="saveButton" id="materialSaveButton" class="button">Save</a></p>
-					<p><a href="deleteButton" id="materialDeleteButton" class="button">Delete</a></p>
-				</div>
-				
+		<div id="environmentContainer" class="category">
+		<p><a href="environment" id="Environment">Environment</a></p>
+			<span><p>Wavelength:<input type="text" id="wavelength" value="600"/></p></span>
+			       
+				<p><a href="Recipe" id="Recipe">Recipes</a></p>
 				<div id="recipeContainer" class="category">
-				<p><a href="Recipe.html" id="Recipe">Recipe</a></p>
-					<p><select id="recipeList"></select><a href="loadButton" id="recipeLoadButton" class="button">Load</a></p>
-					<p><a href="saveButton" id="recipeSaveButton" class="button">Save</a></p>
-					<p><a href="deleteButton" id="recipeDeleteButton" class="button">Delete</a></p>
+				</div>
+				<p><a href="material" id="Material">Materials</a></p>
+			        <div id="materialContainer" class="category">	
 				</div>
 		</div>
-	
-	
-
+		
 	<div id="dataContainer">
 		<div id="dataTable" class="recipeTable"></div>
-		<a href="calcButton" id="recipeCalcButton" class="button">Calculate</a>
+		<a href="calcButton" id="recipeCalcButton" class="button">Calculate</a>		
+		<a href="saveButton" id="saveButton" class="button recipeButton">Save</a>
+		<a href="deleteButton" id="deleteButton" class="button recipeButton">Delete</a>			
 	</div>
 	
-
 	<div id="resultArea">
 	<div id="graph"></div>
 	<div id="output">
 	</div>
-	
-	
-		
-		
 	
 	</div>
 		

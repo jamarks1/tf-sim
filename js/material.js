@@ -1,15 +1,34 @@
 $(document).ready(function(){
 
         renderMaterialTable(materialData);
-
+        
+        
 //---Buttons-------------------------------------------------------------------
-
-        //load
-        $('a#materialLoadButton').click(function(event){
+        
+        //New material file
+        $('a#newMaterialFile').click(function(event){
                 event.preventDefault();
-                loadMaterial();
+                materialData = [];
+                renderMaterialTable(materialData);
         });
-
+        
+        //load material. The .on lets it persist through updateMaterialList().
+       $(document).on('click','a.materials',(function(event){
+                event.preventDefault();
+                var materialName = $(this).text();
+                loadMaterial(materialName);
+        }));
+        
+        //Save material file
+        $(document).on('click','a#saveButton.materialButton',(function(event){
+                event.preventDefault();
+                saveMaterial(materialData);
+        }));
+        // Delete Button
+	$(document).on('click','a#deleteButton.materialButton',(function(event){
+	        event.preventDefault();
+	        deleteMaterial();
+	}));
 });
 //--------------------------------------------------------end of document ready.
 
@@ -24,7 +43,11 @@ function renderMaterialTable(materialData) {
 		columns: [{data: "lambda"},
 			{data: "n"},
 			{data: "k"}],
-			
+		cells: function(row, col, prop, td){
+			var cellProperties = {};
+			cellProperties.readOnly = false;
+			return cellProperties;
+			},
 		data: materialData
 	});
 }
@@ -32,23 +55,23 @@ function renderMaterialTable(materialData) {
 
 //Material List
 function updateMaterialList() {
-	$('select#materialList').html("");
+	$('div#materialContainer').empty();
 	var saved = Object.keys(localStorage);
 	
 	for (i=0; i<saved.length; i++) {
 		if (localStorage.getItem(saved[i]).indexOf('materialName') == 2) {
-			$('#materialList').append('<option>' + saved[i] + '</option>');
+			$('div#materialContainer').append('<a href="' + saved[i] + '" class="materials">' + saved[i] + '</a><br/>');
 		}
 	};
-	//No recipe selected until selected
-	$('select#materialList').prepend('<option value=""></option>')
+	//Clear fields for new file
+	$('div#materialContainer').prepend('<a href="" id="newMaterialFile">new material file</a><br/>')
+	
 };
 
 //Load material file from local storage. Very similar to loadRecipe(). Would
 //like to combine in the future.
-function loadMaterial() {
+function loadMaterial(materialName) {
         toggleMaterialTable();
-        var materialName = $('select#materialList option:selected').val();
         $('#name').val(materialName);
         document.title = materialName;
         var jsonData = $.parseJSON(localStorage.getItem(materialName));
@@ -64,5 +87,52 @@ function loadMaterial() {
 			materialData.splice(i);                
 		}
 	renderMaterialTable(materialData);
-	
+	$.plot($('div#graph'),[materialData]);
 }
+
+//Function for saving a material to local storage.
+function saveMaterial(materialData) {
+	var materialName = $('input#name').val();
+
+	// make new material object
+	var jsonData = new material(materialName);
+
+	for (i = 0 ; i < materialData.length ; i++) {
+	        //skip over blank fields, build recipe
+		if (materialData[i].lambda && materialData[i].n) { 
+			jsonData.Indices[i] = { "lambda": materialData[i].lambda, "n": materialData[i].n, "k": materialData[i].k}
+		}
+		
+	// Store a new recipe in a string
+	var jsonString = JSON.stringify(jsonData);
+	// place in storage with a key equal to the recipe Name.
+	localStorage.setItem(materialName, jsonString);
+	}
+	updateOutput("Material file saved: " + materialName + "<br/>");
+	updateMaterialList();
+}
+
+//Delete Material function
+function deleteMaterial(){
+        var materialName = $('input#name').val();
+        var decision = confirm("Are you sure you want to delete material " + materialName);
+        if (decision) {
+                localStorage.removeItem(materialName);
+                updateMaterialList();
+                updateOutput(materialName + " deleted.<br/>")
+        }
+}
+
+
+//Material Functions-----------------------------------------------------------	
+
+// make a new material for importing to JSON format
+var material = function (materialName) {
+
+	this.materialName = materialName;
+	this.Indices = [{"lambda": 0, "n": 0 , "k": 0},{"lambda": 0, "n": 0, "k": 0 }];
+	//this.Notes = " "; todo
+ };     
+        
+        
+        

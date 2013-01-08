@@ -16,15 +16,36 @@
 	<div id="container">
 		<input type="text" id="name"/>
 	
-		<div id="environmentContainer" class="category">
-		<p><a href="environment" id="Environment">Environment</a></p>
-			<span><p>Wavelength:<input type="text" id="wavelength" value="600"/></p></span>
-			       
-				<p><a href="Recipe" id="Recipe">Recipes</a></p>
+                                
+		                <div id="environmentContainer" class="category">
+		                <p><a href="environment" id="Environment">Environment</a>
+                                <ul>
+                                        <span><li>Reference Wavelength(nm):<input type="text" id="wavelength" value="600"/></li></span>
+                                        
+                                        <li>Scan Range:
+                                                <li><span><input type="text" id="rangeXMin" value="300"/> nm to<input type="text" id="rangeXMax" value="1500"/>nm</li>
+                                        </li>
+                                </ul>
+
+                                <p><a href="Recipe" id="Recipe">Recipes</a></p>
 				<div id="recipeContainer" class="category">
 				</div>
+				
 				<p><a href="material" id="Material">Materials</a></p>
 			        <div id="materialContainer" class="category">	
+				</div>
+				
+				<p><a href="Settings" id="Settings">Settings</a></p>
+				<div id="settingsContainer" class="category">
+				<a href="materialSettings" id="materialSettings">Material Settings</a>
+				<div id="materialSettingsContainer">
+				        <ul>
+				                <li>Plot:
+				                <li><input type="checkbox" id="plotIndex" checked/>Refractive Index</li>
+				                <li><input type="checkbox" id="PlotExtinction" />Extinction Coefficient</li>
+				                </li>
+				        </ul>
+				</div>
 				</div>
 		</div>
 		

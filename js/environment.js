@@ -13,8 +13,11 @@ $(document).ready(function(){
 	
 	updateRecipeList();
         updateMaterialList();
+        
+        // Initialize graph
+	$.plot($('div#graph'), [0,0]);
        
-	$('table.htCore tr').css('margin-top','14px');
+	//$('table.htCore tr').css('margin-top','14px');
 	
 	$('div#output').append("___________________Thin Film Simulator___________________<br/> ready...<br/>");
 	

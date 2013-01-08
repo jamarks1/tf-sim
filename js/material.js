@@ -1,6 +1,10 @@
+/* Code for handling material files. Developed by James Marks (jamarks1 on github) in 2012. */
 $(document).ready(function(){
 
         renderMaterialTable(materialData);
+        
+        //Turn curves on and off with checkbox
+        $('div#materialSettingsContainer :checkbox').click(function(){materialGraph(materialData)})
         
         
 //---Buttons-------------------------------------------------------------------
@@ -86,7 +90,7 @@ function loadMaterial(materialName) {
 			materialData.splice(i);                
 		}
 	renderMaterialTable(materialData);
-	materialGraph(materialName,materialData);
+	materialGraph(materialData);
 	
 }
 
@@ -125,16 +129,31 @@ function deleteMaterial(){
 }
 
 // Produce materialGraph
-function materialGraph(materialName, materialData) {
-
-         var nPlot = [];
-         var kPlot = [];
+function materialGraph(materialData) {
+        var datasets = [];
+        var nPlot = [];
+        var kPlot = [];
+                //Construct individual arrays for n and k data
                 for (i = 0 ; i < materialData.length; i++) {
                         nPlot[i] = [materialData[i].lambda , materialData[i].n];
                         kPlot[i] = [materialData[i].lambda , materialData[i].k];
                 }
-
-        $.plot($('div#graph'),[nPlot,kPlot]);
+        // Reference material settings for user input. plot displayed?
+        $('div#materialSettingsContainer input:checked').each(function(){
+                var key = $(this).attr('id');
+                if (key === 'plotIndex'){
+                        datasets.push({ color: '#D1718C', data: nPlot});
+                }
+                if (key === 'PlotExtinction'){
+                        datasets.push({ color: '#71D1B6' , data: kPlot});
+                }
+        });
+        // If no plot is checked, return an empty plot
+        if (datasets.length === 0) {
+                datasets = [0,0];
+        }
+        
+        $.plot($('div#graph'),datasets);
 }
 
 //Material Functions-----------------------------------------------------------	

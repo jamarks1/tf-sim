@@ -41,18 +41,21 @@ div.category p {
     padding-bottom: 5px;
 }
 
-div.category p a{
-    text-decoration: none;
-    font-family: sans-serif;
-    color: black;
-    margin: 5px;
-}
-
 div.category a {
     text-decoration: none;
     color: black;
     font-family: helvetica;
-    margin-left: 10px;
+    margin: 5px;
+    margin-left: 15px;
+}
+
+div.category li, ul {
+        list-style-type: none;
+        font-family: helvetica;
+        font-size: .95em;
+        margin: 0px;
+        margin-left: 12px;
+        padding: 0px;
 }
 
 #newRecipeFile, #newMaterialFile {
@@ -102,7 +105,7 @@ div#dataContainer {
 }
 
 div#environmentContainer {
-    margin-right: 2px;
+    margin-right: 10px;
     float: left;
     width: 200px;
     border: solid 1px grey;
@@ -114,4 +117,12 @@ table.htCore td {
     font-size: 1.1em;
 }*/
 
+input#wavelength {
+        width: 60px;
+        border-width: 0px 0px 1px 0px;
+        border-color: #BBB;
+        text-align: center;
+        background: #FFFEEE;
+        font-size: .95em;
+}
 

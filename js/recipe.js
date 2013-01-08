@@ -4,9 +4,6 @@ $(document).ready(function(){
 	renderRecipeTable(recipeData);
 
 	
-	// Initialize graph
-	$.plot($('div#graph'), [[0,0],[1,2]]);
-	
 //----Buttons-------------------------------------------------------------------
         //regularly update layer number column
         $('tbody tr').click(function(){updateRecipeTableLayers(recipeData)});

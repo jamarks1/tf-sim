@@ -95,7 +95,7 @@ Where A = cos ð, B = (j / n) * sin ð, C = j * n * sin ð, D = cos ð. ð is th
 phase difference and j = sqrt(-1) is an imaginary number (which cancels out if 
 θ equals 0).*/
 
-function calcMatrix () {
+function calcMatrix() {
         //the phase difference array coupled with wavelength reference
         var phaseData = phaseDifference();
         
@@ -130,4 +130,39 @@ with last layer, then second to last, etc (Ln * Ln-1 * Ln-2 ... Li). A 2 by 2
 matrix is multiplied by the pattern | (A1*A2)+(B1*C2) (A1*B2)+(B1*D2) |
                                     | (C1*A2)+(D1*C2) (C1*B2)+(D1*D2) | */
                                     
-function multiplyMatrices();
+function multiplyMatrices() {
+        
+        var matrixArray = calcMatrix();
+        //empty array to hold the product of matrices
+        var productMatrix = [];
+        var numlayers = matrixArray.length
+         
+        var A = matrixArray[numlayers-1][0];
+        var B = matrixArray[numlayers-1][1];
+        var C = matrixArray[numlayers-1][2];
+        var D = matrixArray[numlayers-1][3];
+        
+        var mA = 1;
+        var mB = 1;
+        var mC = 1;
+        var mD = 1;
+        for (h = matrixArray.length-2 ; h>0 ; h--) {
+                         
+                for (j=0 ; j < matrixArray[0][0].length ; j++) {
+                        
+                        var a = 0;
+                        var b = 1;
+                        var c = 2;
+                        var d = 3;
+                        mA = mA * (A[j] * matrixArray[h][a][j]) + (B[j] * matrixArray[h][c][j]);
+                        mB = mB * (A[j] * matrixArray[h][b][j]) + (B[j] * matrixArray[h][d][j]);
+                        mC = mC * (C[j] * matrixArray[h][a][j]) + (D[j] * matrixArray[h][c][j]);
+                        mD = mD * (C[j] * matrixArray[h][b][j]) + (D[j] * matrixArray[h][d][j]);
+                                       
+                }
+                           
+        }
+        return [mA,mB,mC,mD];
+};
+
+

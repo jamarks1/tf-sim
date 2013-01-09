@@ -14,6 +14,7 @@ $(document).ready(function(){
                 event.preventDefault();
                 materialData = [];
                 renderMaterialTable(materialData);
+                $.plot($('div#graph'), [0,0]);
         });
         
         //load material. The .on lets it persist through updateMaterialList().
@@ -22,6 +23,12 @@ $(document).ready(function(){
                 var materialName = $(this).text();
                 loadMaterial(materialName);
         }));
+        
+        //calculate and plot material table
+        $('a#plotButton.materialButton').click(function(event){
+                event.preventDefault();
+                materialGraph(materialData);        
+        });
         
         //Save material file
         $(document).on('click','a#saveButton.materialButton',(function(event){

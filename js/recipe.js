@@ -6,14 +6,14 @@ $(document).ready(function(){
 	
 //----Buttons-------------------------------------------------------------------
         //regularly update layer number column
-        $('tbody tr').click(function(){updateRecipeTableLayers(recipeData)});
+        $('div#dataTable.recipeTable tbody tr').click(function(){updateRecipeTableLayers(recipeData)});
         	
-	// Calculate Button
-	$('a#recipeCalcButton').click(function(event){
+	// Plot Button
+	$('a#plotButton.recipeButton').click(function(event){
 		event.preventDefault();
 		//In case user decides to fool around :)
 		removeEmptyRows();
-		//Update Layer Numbers
+		//Update Layer Numbers, 
 		updateRecipeTableLayers(recipeData);
 		//Update Table Index
 		updateRecipeTableNK();
@@ -24,7 +24,8 @@ $(document).ready(function(){
         $('a#newRecipeFile').click(function(event){
                 event.preventDefault();
                 recipeData = [];
-                renderRecipeTable(recipeData); 
+                renderRecipeTable(recipeData);
+                $.plot($('div#graph'), [0,0]);
         });
         
         //Load Recipe. Must reinitiate jquery recipe click after change
@@ -154,10 +155,8 @@ function updateRecipeTableNK(){
 					hiWavelength = n.Indices[j].lambda;
 					hiIndex = n.Indices[j].n;
 					hiExtinction = n.Indices[j].k;				
-				}
-				
+				}	
 			};
-		
 		// Closer data point is the wavelength, higher proportion used.
 		// But if LoWavelength is the highest number, It's proportion should be 1. 
 		if (hiIndex == 0) {

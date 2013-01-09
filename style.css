@@ -46,15 +46,14 @@ div.category a {
     color: black;
     font-family: helvetica;
     margin: 5px;
-    margin-left: 15px;
 }
 
 div.category li, ul {
         list-style-type: none;
         font-family: helvetica;
         font-size: .95em;
-        margin: 0px;
-        margin-left: 12px;
+        margin: 2px;
+        margin-left: 8px;
         padding: 0px;
 }
 
@@ -117,8 +116,8 @@ table.htCore td {
     font-size: 1.1em;
 }*/
 
-input#wavelength {
-        width: 60px;
+input[type="text"] {
+        width: 40px;
         border-width: 0px 0px 1px 0px;
         border-color: #BBB;
         text-align: center;
@@ -126,3 +125,6 @@ input#wavelength {
         font-size: .95em;
 }
 
+#materialContainer{
+        display: none;
+}

@@ -1,5 +1,3 @@
-// recipe.js
-
 $(document).ready(function(){
 	
 	//Initialize recipeTable
@@ -20,8 +18,6 @@ $(document).ready(function(){
 		//Update Table Index
 		updateRecipeTableNK();
 		
-		reflectivityGraph();
-		
 	});
 	
 	//New recipe file
@@ -40,8 +36,6 @@ $(document).ready(function(){
 		updateRecipeTableLayers(recipeData);
 		updateRecipeTableNK();
 		renderRecipeTable(recipeData);
-		
-		
 	}));
 	
 	// Save Button

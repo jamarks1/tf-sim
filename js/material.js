@@ -111,7 +111,7 @@ function saveMaterial(materialData) {
 	for (i = 0 ; i < materialData.length ; i++) {
 	        //skip over blank fields, build recipe
 		if (materialData[i].lambda && materialData[i].n) { 
-			jsonData.Indices[i] = { "lambda": materialData[i].lambda, "n": materialData[i].n, "k": materialData[i].k}
+			jsonData.Indices[i] = { "lambda": parseFloat(materialData[i].lambda), "n": parseFloat(materialData[i].n), "k": parseFloat(materialData[i].k)}
 		}
 		
 	// Store a new recipe in a string

@@ -224,10 +224,9 @@ function calculate(){
       var R = parseFloat(math.round(math.divide(num,den),8));
       //Look at Y axis selection and formulate 
       if ($('select#y-axis').val()==="R"){
-         reflectance.push(R*100);     
-         }
+         reflectance.push(R);     }
       else if ($('select#y-axis').val()==="T"){
-         reflectance.push((1-R)*100);
+         reflectance.push(1-R);
       }
       else if ($('select#y-axis').val()==="OD"){
          reflectance.push(-math.log10(1-R));

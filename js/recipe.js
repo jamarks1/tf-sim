@@ -20,7 +20,7 @@ $(document).ready(function(){
 		//Update Table Index
 		updateRecipeTableNK();
 		
-		reflectivityGraph();
+		graph();
 		
 	});
 	
@@ -131,7 +131,7 @@ function updateRecipeTableLayers(recipeData) {
 	$('div.recipeTable').handsontable('render');
 }
 
-// the index of the material corresponding to the wavelength of interest
+// the index of the material corresponding to the reference wavelength
 function updateRecipeTableNK(){
 	var wavelength =  parseInt($('input#wavelength').val());
 	var noThick = 0; //Catch layers without a thickness
@@ -139,9 +139,8 @@ function updateRecipeTableNK(){
 		if (recipeData[i].Material && recipeData[i].Thickness){
 			var materialName = recipeData[i].Material;
 			var n = JSON.parse(localStorage.getItem(materialName));
-	// This code will find the two wavelengths in material table closest to
-	// wavelength of interest and take a proportion of both relative to the
-	// wavelength. This will allow us to extrapolate based on the data we have. 
+	/* This code will find the two wavelengths in material table closest to
+	 wavelength of interest and take a proportion of both relative to it */
 			var hiWavelength = 0;
 			var hiIndex = 0;
 			var loWavelength = 0; 
@@ -206,6 +205,26 @@ function updateRecipeList() {
         //Clear field for new file
         $('div#recipeContainer').prepend('<a href="" id="newRecipeFile">new recipe file</a><br/>')
         
+};
+
+//list of materials used in a recipe
+function materialsUsed(){
+   var materialsUsed = [];
+   materialsUsed.push(recipeData[0].Material);
+   for (var i = 1; i<recipeData.length; i++) {
+   var flag = false;
+   for (var index in materialsUsed){
+      var material = recipeData[i].Material;
+      if (material === materialsUsed[index]){
+           flag = true;
+      }
+   };   
+   if (flag === false){
+      materialsUsed.push(material);
+   }  
+   };
+   materialsUsed.pop() //null is added to array by empty line
+   return materialsUsed;
 };
 
 //Function for loading a recipe from local storage.

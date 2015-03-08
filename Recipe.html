@@ -20,23 +20,29 @@
          <div id="environmentContainer" class="category">
          <p><a href="environment" id="Environment">Environment</a>
             <ul>
-               <span><li>Reference Wavelength(nm):<input type="text" id="wavelength" value="600"/></li></span>                                              
+            <!--Set Ref Wavelength and units -->
+               <span><li>Reference Wavelength:</li>
+               <input type="text" id="wavelength" value="600"/>
+               <select id="waveUnits">
+                  <option value="nanometers">nm</option>
+                  <option value="microns">&micro;</option>
+               </select>
+               </span>                                              
                <li>Scan Range:
-                  <li><span><input type="text" id="rangeXMin" value="300"/> nm to<input type="text" id="rangeXMax" value="1500"/>nm</li>
-                  <li><span>Interval: <input type="text" id="interval" value="1" /> nm </li>
+                  <li><input type="text" id="rangeXMin" value="300"/> to
+                  <input type="text" id="rangeXMax" value="1500"/><span class="xUnit">nanometers</span></li>
+                  <li>Interval: <input type="text" id="interval" value="1.0" /><span class="xUnit">nanometers</span></li>
                </li>
                <!--   <li><span>Angle of Incidence (&deg;): <input type="text" id="AOI" value="0" /> &deg; </li>    show it when turned on -->
-               <li><span>Substrate Index: <input type="text" id="substrate" value="1.52" />&deg; </li>
+               <li><span>Substrate Index: <input type="text" id="substrate" value="1.52" /></li>
                <li>Y-Axis: <select id="y-axis">
                   <option value="R">R%</option>
                   <option value="T">T%</option>
                   <option value="OD">OD</option>
                </li></select>
                 <li>X-Axis: <select id="x-axis">
-                  <option value="nm">nanometer (nm)</option>
-                  <option value="ang">angstrom (&#8491;)</option>
-                  <option value="kAng">wavenumber (cm<sup>-1</sup>)</option>
-                  <option value="wn">micron (&micro;)</option>
+                  <option value="wavelength">wavelength</option>                  
+                  <option value="wavenumber">wavenumber</option>                  
                </li></select>
             </ul>
 

@@ -17,7 +17,7 @@ $(document).ready(function(){
                 $.plot($('div#graph'), [0,0]);
         });
         
-        //load material. The .on lets it persist through updateMaterialList().
+        //load material. The .on lets it persist through updateMaterialsList().
        $(document).on('click','a.materials',(function(event){
                 event.preventDefault();
                 var materialName = $(this).text();
@@ -65,7 +65,7 @@ function renderMaterialTable(materialData) {
 
 
 //update Material List 
-function updateMaterialList() {
+function updateMaterialsList() {
 	$('div#materialContainer').empty();
 	var saved = Object.keys(localStorage);
 	
@@ -78,6 +78,18 @@ function updateMaterialList() {
 	$('div#materialContainer').prepend('<a href="" id="newMaterialFile">new material file</a><br/>')
 	
 };
+
+//Make an array of the materials saved.
+function materialsList(){
+   var materialsList = []
+   var saved = Object.keys(localStorage);
+   for (i=0; i<saved.length; i++) {
+		if (localStorage.getItem(saved[i]).indexOf('materialName') == 2) {
+			materialsList.push(saved[i]);
+		}
+	};
+    return materialsList;
+}
 
 //Load material file from local storage. Very similar to loadRecipe().
 function loadMaterial(materialName) {
@@ -120,7 +132,7 @@ function saveMaterial(materialData) {
 	localStorage.setItem(materialName, jsonString);
 	}
 	updateOutput("Material file saved: " + materialName + "<br/>");
-	updateMaterialList();
+	updateMaterialsList();
 
 }
 
@@ -130,7 +142,7 @@ function deleteMaterial(){
         var decision = confirm("Are you sure you want to delete material " + materialName);
         if (decision) {
                 localStorage.removeItem(materialName);
-                updateMaterialList();
+                updateMaterialsList();
                 updateOutput(materialName + " deleted.<br/>")
         }
 }

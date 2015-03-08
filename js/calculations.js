@@ -63,15 +63,15 @@ function getIndexAndK(w,data) {
 
 function phaseDifference() {
    // get user defined params for range and interval
-   var xMin = parseInt($('input#rangeXMin').val());
-   var xMax = parseInt($('input#rangeXMax').val());
-   var interval = math.round(parseFloat($('input#interval').val()),1);
+   var xMin = parseFloat($('input#rangeXMin').val());
+   var xMax = parseFloat($('input#rangeXMax').val());   
+   var interval = parseFloat($('input#interval').val());
 
    //Make array to hold phase shift data for each layer
    var phaseArray = []; 
        
    for (i=0; i < recipeData.length; i++) {
-      if (recipeData[i].Material && recipeData[i].Thickness) {                       
+      if (recipeData[i].Material && recipeData[i].Thickness) {      
          var phaseDiff = [];
          var wavelength = [];
          var Index = [];
@@ -187,7 +187,7 @@ function matrixMultiply() {
    return productMatrix;
 };
 
-//Next step is to calculate reflectance/transmission
+//Next step is to calculate reflectance/transmission/OD value
 /* Reflectance will be derived from the elements of the matrix and maxwells 
 equation. R = (x-u)^2 + (y-v)^2 / (x+u)^2 + (y+v)^2, where x= no*A (no is index 
 of incident medium, air = 1.0), y = no*ns*B (ns is index of emergent medium, or 
@@ -236,7 +236,7 @@ function calculate(){
    return reflectance;      
 }
 
-function reflectivityGraph(){
+function graph(){
    var reflectance = calculate();
    var wavelength = phaseDifference()[0][0];
         

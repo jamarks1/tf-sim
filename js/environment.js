@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 	//Update and display saved items in environment container
 	updateRecipeList();
-        updateMaterialList();
+   updateMaterialsList();
         
         // Initialize graph
 	$.plot($('div#graph'), [0,0]);
@@ -20,6 +20,33 @@ $(document).ready(function(){
 	//$('table.htCore tr').css('margin-top','14px');
 	
 	$('div#output').append("___________________Thin Film Simulator___________________<br/> ready...<br/>");
+	
+	//On units change. Change units listed in scan range and interval to selection
+	//Also, convert current values to more sane values under new units
+   $('#waveUnits').on('change',function(){
+      $('span.xUnit').text($('#waveUnits').val());
+      if ($('#waveUnits').val()==="microns"){
+         var wave = $('#wavelength').val()/1000;
+         $('#wavelength').val(wave);
+         var xMin = $('#rangeXMin').val()/1000;
+         $('#rangeXMin').val(xMin);
+         var xMax = $('#rangeXMax').val()/1000;
+         $('#rangeXMax').val(xMax);
+         var interval = parseFloat($('#interval').val())/100;
+         $('#interval').val(interval);
+      }
+      else if ($('#waveUnits').val()==="nanometers"){
+         var wave = $('#wavelength').val()*1000;
+         $('#wavelength').val(wave);
+         var xMin = $('#rangeXMin').val()*1000;
+         $('#rangeXMin').val(xMin);
+         var xMax = $('#rangeXMax').val()*1000;
+         $('#rangeXMax').val(xMax);
+         var interval = parseFloat($('#interval').val())*100;
+         $('#interval').val(interval);
+      }
+      
+   });
 	
 	//Recipe environment or material environment, toggle displays for
 	//Settings and environment
@@ -74,6 +101,7 @@ function toggleMaterialTable() {
         
         renderMaterialTable(materialData);
 };
+
 
 //Scroll output to bottom with each append
 function updateOutput(message){

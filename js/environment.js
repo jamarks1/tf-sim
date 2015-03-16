@@ -19,7 +19,7 @@ $(document).ready(function(){
        
 	//$('table.htCore tr').css('margin-top','14px');
 	
-	$('div#output').append("___________________Thin Film Simulator___________________<br/> ready...<br/>");
+	$('div#output').append("___________________Thin Film Simulator___________________<br/> ready.....<br/>");
 	
 	//On units change. Change units listed in scan range and interval to selection
 	//Also, convert current values to more sane values under new units

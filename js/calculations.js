@@ -11,9 +11,7 @@ function getIndexAndK(w,data) {
    var loIndex = 0;
    var hiExtinction = 0;
 	var loExtinction = 0;
-	
-                
-			
+				
    for (j = 0; j < data.Indices.length; j++) {
                 
       if (data.Indices[j].lambda <= w && (loWavelength === 0 || loWavelength < data.Indices[j].lambda)) {
@@ -75,19 +73,27 @@ function phaseDifference() {
          var phaseDiff = [];
          var wavelength = [];
          var Index = [];
+         //convert aoi to radians
+         var aoi = parseFloat($('input#aoi').val()) * (math.pi/180); 
          for ( var w= xMin; w< xMax; w+=interval){               
             //get the corresponding material file, parse it
             var materialName = recipeData[i].Material;
             var jsonString = localStorage.getItem(materialName);
             var data = JSON.parse(jsonString);
-                                
+                                         
+            if ($('select#waveUnits').val() === "microns") {
+               w = w * 1000;
+            } //convert to nanometers if microns is selected
             // Gets the Index and extinction of material at a given wavelength. 
             // Taking into account dispersion of material between data points.
             // See corresponding function.
             var  n = getIndexAndK(w,data)[0];
             var t = recipeData[i].Thickness;
-            var phase = (2 * Math.PI / w) * n * t;
+            var phase = (2 * Math.PI / w) * n * t * math.cos(aoi);
             phaseDiff.push(phase);
+            if ($('select#waveUnits').val() === "microns") {
+               w = w / 1000;
+            }// convert back into microns if microns is selected
             wavelength.push(w);
             Index.push(n);                                  
          }
@@ -239,13 +245,36 @@ function calculate(){
 function graph(){
    var reflectance = calculate();
    var wavelength = phaseDifference()[0][0];
-        
    var datasets = [];
-        
-   //Construct individual arrays for n and k data
+   //convert xaxis to wavenumber if selected
+   if ($('select#x-axis').val() === "wavenumber"){
+       switch ($('select#waveUnits').val()) {
+         case "microns":
+            for (var i = 0; i<wavelength.length; i++){
+               wavelength[i] = 10000/wavelength[i];
+            };
+            break;
+         case "nanometers":
+             for (var i = 0; i<wavelength.length; i++){
+               wavelength[i] = 10000000/wavelength[i];
+            };
+            break; 
+       }  
+   }  
    for (i = 0 ; i < wavelength.length; i++) {
          datasets.push([wavelength[i],reflectance[i]]);
-   }
-   $.plot($('div#graph'),[datasets]);
-               
+   } 
+   // The Graph
+   $.plot($('div#graph'),[datasets],{
+   //if wavenumber selected, don't display x by numerical order (default of flot.js)
+      xaxis: {transform: function (v) { 
+         if ($('select#x-axis').val() === "wavenumber"){
+            return -v;
+         }
+         else {
+            return v;
+         }
+         }}
+    }); 
+              
 };

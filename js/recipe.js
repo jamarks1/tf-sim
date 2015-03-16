@@ -133,7 +133,10 @@ function updateRecipeTableLayers(recipeData) {
 
 // the index of the material corresponding to the reference wavelength
 function updateRecipeTableNK(){
-	var wavelength =  parseInt($('input#wavelength').val());
+	var wavelength =  parseFloat($('input#wavelength').val());
+	if ($('select#waveUnits').val() === "microns"){
+	   wavelength = wavelength * 1000;
+	}//if microns for units is chosen, convert to nanometers
 	var noThick = 0; //Catch layers without a thickness
 	for (i=0; i<recipeData.length; i++) {
 		if (recipeData[i].Material && recipeData[i].Thickness){
@@ -219,11 +222,11 @@ function materialsUsed(){
            flag = true;
       }
    };   
-   if (flag === false){
+   if (flag === false && material !== null){ //empty lines give null value
       materialsUsed.push(material);
    }  
    };
-   materialsUsed.pop() //null is added to array by empty line
+   
    return materialsUsed;
 };
 

@@ -1,24 +1,90 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Enyo Bootplate App</title>
-		<link rel="shortcut icon" href="assets/favicon.ico"/>
-		<!-- -->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
-		<meta name="apple-mobile-web-app-capable" content="yes"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		<!-- css -->
-		
-		
-		<!-- js -->
-		<script src="enyo/enyo.js"></script>
-		<script src="source/package.js"></script>
+   <head>
+      <title>TFSim</title>
+      <link rel="stylesheet" type="text/css" href="style.css">
+      <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/recipe.js"></script>
+		<script type="text/javascript" src="js/material.js"></script>
+		<script type="text/javascript" src="js/calculations.js"></script>
+		<script type="text/javascript" src="dist/jquery.handsontable.full.js"></script>
+		<script type="text/javascript" src="js/jquery.flot.js"></script>
+		<script type="text/javascript" src="js/math.min.js"></script>		
+		<link rel="stylesheet" media="screen" href="dist/jquery.handsontable.full.css">
 	</head>
-	<body class="enyo-unselectable">
-		<script>
-			var recipe = new Recipe();
-			recipe.renderInto(document.body);
-		</script>
+	<body>
+   <div id="container">
+		<input type="text" id="name"/>                             
+         <div id="environmentContainer" class="category">
+         <p><a href="environment" id="Environment">Environment</a>
+            <ul>
+            <!--Set Ref Wavelength and units -->
+               <span><li>Reference Wavelength:</li>
+               <input type="text" id="wavelength" value="600"/>
+               <select id="waveUnits">
+                  <option value="nanometers">nm</option>
+                  <option value="microns">&micro;</option>
+               </select>
+               </span>                                              
+               <li>Scan Range:
+                  <li><input type="text" id="rangeXMin" value="300"/> to
+                  <input type="text" id="rangeXMax" value="1500"/><span class="xUnit">nanometers</span></li>
+                  <li>Interval: <input type="text" id="interval" value="1.0" /><span class="xUnit">nanometers</span></li>
+               </li>
+               <li><span>Angle of Incidence: <input type="text" id="aoi" value="0" /> &deg; </li>
+               <!--<li>Polarization:<input type="checkbox" id= "avg" value="avg" checked>Avg
+                  <input type="checkbox" id="s" value="s">S
+                  <input type="checkbox" id="p" value="p">P
+               </li> --turn on when done-->
+               <li><span>Substrate Index: <input type="text" id="substrate" value="1.52" /></li>
+               <li>Y-Axis: <select id="y-axis">
+                  <option value="R">R%</option>
+                  <option value="T">T%</option>
+                  <option value="OD">OD</option>
+               </li></select>
+                <li>X-Axis: <select id="x-axis">
+                  <option value="wavelength">wavelength</option>                  
+                  <option value="wavenumber">wavenumber</option>                  
+               </li></select>
+            </ul>
+
+                                <p><a href="Recipe" id="Recipe">Recipes</a></p>
+				<div id="recipeContainer" class="category">
+				</div>
+				
+				<p><a href="material" id="Material">Materials</a></p>
+			        <div id="materialContainer" class="category">	
+				</div>
+				
+				<p><a href="Settings" id="Settings">Settings</a></p>
+				<div id="settingsContainer" class="category">
+				<a href="materialSettings" id="materialSettings">Material Settings</a>
+				<div id="materialSettingsContainer">
+				        <ul>
+				                <li>Plot:
+				                <li><input type="checkbox" id="plotIndex" checked/>Refractive Index</li>
+				                <li><input type="checkbox" id="PlotExtinction" />Extinction Coefficient</li>
+				                </li>
+				        </ul>
+				</div>
+				</div>
+		</div>
+		
+	<div id="dataContainer">
+		<div id="dataTable" class="recipeTable"></div>
+		<a href="plotButton" id="plotButton" class="button recipeButton">Plot</a>		
+		<a href="saveButton" id="saveButton" class="button recipeButton">Save</a>
+		<a href="deleteButton" id="deleteButton" class="button recipeButton">Delete</a>			
+	</div>
+	
+	<div id="resultArea">
+	<div id="graph"></div>
+	<div id="output">
+	</div>
+	
+	</div>
+		
 	</body>
 </html>
+ 

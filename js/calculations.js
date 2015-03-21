@@ -238,7 +238,9 @@ function calculate(){
       else if ($('select#y-axis').val()==="OD"){
          reflectance.push(-math.log10(1-R));
       }
+     
    }
+   
    return reflectance;      
 }
 

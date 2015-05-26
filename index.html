@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>TFSim</title>
+      <title>TFSim alpha</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="style.css">
-      <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+      <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 		<script type="text/javascript" src="js/environment.js"></script>
 		<script type="text/javascript" src="js/recipe.js"></script>
 		<script type="text/javascript" src="js/material.js"></script>
+		<script type="text/javascript" src="js/Defaults.js"></script>
 		<script type="text/javascript" src="js/calculations.js"></script>
-		<script type="text/javascript" src="dist/jquery.handsontable.full.js"></script>
+		<script type="text/javascript" src="dist/handsontable.full.js"></script>
 		<script type="text/javascript" src="js/jquery.flot.js"></script>
+		<script type="text/javascript" src="perfect-scrollbar/perfect-scrollbar.js"></script>
 		<script type="text/javascript" src="js/math.min.js"></script>		
-		<link rel="stylesheet" media="screen" href="dist/jquery.handsontable.full.css">
+		<link rel="stylesheet" media="screen" href="dist/handsontable.full.css">
+		<link rel="stylesheet" media="screen" href="perfect-scrollbar/perfect-scrollbar.css">
 	</head>
 	<body>
    <div id="container">
-		<input type="text" id="name"/>                             
+		                             
          <div id="environmentContainer" class="category">
          <p><a href="environment" id="Environment">Environment</a>
             <ul>
@@ -49,7 +53,7 @@
                </li></select>
             </ul>
 
-                                <p><a href="Recipe" id="Recipe">Recipes</a></p>
+            <p><a href="Recipe" id="Recipe">Recipes</a></p>
 				<div id="recipeContainer" class="category">
 				</div>
 				
@@ -72,10 +76,16 @@
 		</div>
 		
 	<div id="dataContainer">
+	<input type="text" id="name"/>
 		<div id="dataTable" class="recipeTable"></div>
 		<a href="plotButton" id="plotButton" class="button recipeButton">Plot</a>		
 		<a href="saveButton" id="saveButton" class="button recipeButton">Save</a>
-		<a href="deleteButton" id="deleteButton" class="button recipeButton">Delete</a>			
+		<a href="deleteButton" id="deleteButton" class="button recipeButton">Delete</a>	
+		<input type="button" value="Plot" onclick="graph()"/>
+      <input type="button" value="Save Recipe" onclick="saveRecipe(recipeData)"/>
+      <input type="button" value="Delete Recipe" onclick="deleteRecipe()"/>
+		<input type="button" value="Delete Rows" onclick="deleteRows()"/>
+		<input type="button" value="Insert Rows" onclick="insertRows()"/>
 	</div>
 	
 	<div id="resultArea">

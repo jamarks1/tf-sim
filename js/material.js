@@ -1,8 +1,8 @@
 /* Code for handling material files. Developed by James Marks (jamarks1 on github) in 2012. */
 $(document).ready(function(){
 
-        renderMaterialTable(materialData);
-        
+        //renderMaterialTable(materialData);
+    
         //Turn curves on and off with checkbox
         $('div#materialSettingsContainer :checkbox').click(function(){materialGraph(materialData)})
         
@@ -46,7 +46,7 @@ $(document).ready(function(){
 // Display material table
 function renderMaterialTable(materialData) {
 	$('div.materialTable').handsontable({
-		startRows: 19,
+		minRows: 21,
 		Cols: 3,
 		dataSchema: {lambda: null, n: null,  k: null},
 		colHeaders: ["Wavelength", "Refractive Index", "Extinction Coefficient"],

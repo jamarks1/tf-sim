@@ -7,9 +7,28 @@ materialData = [];
 $(document).ready(function(){
 	
 	//hide table scrollbars
-	var dataTableWidth = document.getElementById("dataTable").scrollWidth;
-	document.getElementById("dataContainer").style.width = dataTableWidth + "px";
-
+	//var dataTableWidth = document.getElementById("dataTable").scrollWidth;
+	//document.getElementById("dataContainer").style.width = dataTableWidth + "px";
+   
+   //check if browser supports Canvas api. Check if storage is empty and 
+   //if it is populate a few materials and recipes to get the user started.
+   function checkStatusOnLoad(){
+       if (!!document.createElement('canvas').getContext === false){
+         alert("Your browser is out of date. Please download the latest " +
+         "version of your chosen browser (i.e. Firefox, Chrome, Internet " +
+         "Explorer."); 
+       }
+       else {console.log("It works.")};
+       //check storage 
+       var keys = Object.keys(localStorage);
+       if (keys.length === 0){
+         setDefaults();
+         $('#output').append("Welcome to TfSim, a web app for " + 
+         "simulating reflection or refraction of light through multiple " + 
+         "interfaces (aka Thin-Film interference).<br/>")
+       }  
+   }
+   checkStatusOnLoad();
 	//Update and display saved items in environment container
 	updateRecipeList();
    updateMaterialsList();
@@ -19,7 +38,7 @@ $(document).ready(function(){
        
 	//$('table.htCore tr').css('margin-top','14px');
 	
-	$('div#output').append("___________________Thin Film Simulator___________________<br/> ready.....<br/>");
+	$('div#output').append("TF Sim___________________<br/> ready.....<br/>");
 	
 	//On units change. Change units listed in scan range and interval to selection
 	//Also, convert current values to more sane values under new units

@@ -1,21 +1,22 @@
 body {
       background: #FFFEEE;
-      margin:0px;
      }
      
 #container {
-	width: 98%;
-	height: 100%;
-	margin-top: 2em;
-
+	width: 1024px;
+	height: 768px;
+	margin-left:auto;
+	margin-right:auto;
 }
+
 
 
 #output {
         position: relative;
-    
-	width: 100%;
+        float:right;
+	width: 475px;
 	height: 127px;
+        margin: 2px;
 	overflow: auto;
 	border: solid 1px #EEEDDD;
 	font-family: monospace;
@@ -63,58 +64,50 @@ div.category li, ul {
 }
 
 #graph {
-	width:100%;
-	min-width:240px;
+	width:485px;
 	height:550px;
-	
+	float: right;
+	margin: 0px;
 }
 
 #resultArea {
-    width: 35%;
-    min-width:240px;
-    float: left;
-    
+    width: 424px;
+    float: right;
+    margin: 0px;
 }
 
-div#dataContainer {
-    float: left;
-    width: 34%;
-    min-width:240px;
-    position: relative;
-    height:90%;
-    overflow:hidden;
-}
 
 #dataTable {
-	
-	   
+	position: relative;
+	margin-top: 0px;    
 	float: left;
-	height: 600px;
-	width: 95%;
-	overflow-y: hidden;
-	overflow-x: hidden;
+	height: 700px;
+	width: 400px;
+	overflow-y: scroll;
+	overflow-x: auto;
  
 }
 
 input#name {
     position:relative;
-   
-    font-size: 1.1em;
-    
+    margin: 5px;
+    font-size: 22px;
+    text-align: center;
     border: none;
     background: #FFFEEE;
-    width: 100%;
-    
+    width: 1024px;
 }
 
-
+div#dataContainer {
+    float: left;
+    width: 400px;
+    overflow:hidden;
+}
 
 div#environmentContainer {
-   /* margin-right: 10px;  */
+    margin-right: 10px;
     float: left;
-    width: 100%;
-    min-width: 240px;
-    max-width: 340px;
+    width: 200px;
     border: solid 1px grey;
 }
 

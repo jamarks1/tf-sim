@@ -90,9 +90,8 @@ div#dataContainer {
 	   
 	float: left;
 	height: 600px;
-	width: 95%;
-	overflow-y: hidden;
-	overflow-x: hidden;
+	width: 100%;
+	overflow: hidden;
  
 }
 

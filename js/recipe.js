@@ -4,8 +4,12 @@ $(document).ready(function(){
 	
 	//Initialize recipeTable
 	renderRecipeTable(recipeData);
+	//QWOT to physical thickness
    updateThicknessListener();
-	
+   //initialize scrollbar in datatable, using the Perfect scrollbar plugin
+   var dataTable = document.getElementById('dataTable');
+   Ps.initialize(dataTable);
+   	
 //----Buttons-------------------------------------------------------------------
         //regularly update layer number column
         $('div#dataTable.recipeTable tbody tr').click(function(){
@@ -70,7 +74,7 @@ $(document).ready(function(){
   
 function renderRecipeTable(recipeData) {
 	$('div.recipeTable').handsontable({
-		minRows: 21,
+		minRows: 25,
 		Cols: 6,
 		dataSchema: {Layer: null, 
 		Material: null,  
@@ -89,9 +93,7 @@ function renderRecipeTable(recipeData) {
 			{data: "n"},
 			{data: "k"}, 
 			{data: "Thickness"},
-			{data: "QWOT",
-			  //source: QWOTListener()			      
-			}],
+			{data: "QWOT"}],
 
 		cells: function(row, col, prop, td){
 			var cellProperties = {};
